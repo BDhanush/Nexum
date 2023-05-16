@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_margin="10dp"
+    app:cardCornerRadius="16dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            >
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/profilePicture"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/dice_6"
+                app:layout_constraintBottom_toBottomOf="@+id/applyButton"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/downloadButton"
+                app:shapeAppearanceOverlay="@style/roundedImageViewRounded" />
+
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="User Name"
+                android:textAppearance="?attr/textAppearanceTitleMedium"
+                app:layout_constraintBottom_toBottomOf="@+id/profilePicture"
+                app:layout_constraintStart_toEndOf="@+id/profilePicture"
+                app:layout_constraintTop_toTopOf="@+id/profilePicture"
+                android:layout_margin="8dp"
+                />
+
+            <TextView
+                android:id="@+id/datePosted"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="7dp"
+                android:text="22/2/2022"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
+
+                android:textColor="?android:attr/textColorSecondary"
+                android:textSize="10dp"
+                app:layout_constraintBottom_toTopOf="@+id/title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/profilePicture" />
+
+            <Button
+                android:id="@+id/downloadButton"
+                style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Download"
+                app:icon="@drawable/baseline_download_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/profilePicture" />
+
+            <!-- Title, secondary and supporting text -->
+            <TextView
+                android:id="@+id/fileName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textAppearance="?attr/textAppearanceTitleMedium"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/downloadButton"
+                tools:text="file.txt" />
+
+            <TextView
+                android:id="@+id/extention"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=".txt"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
+                android:textColor="?android:attr/textColorSecondary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fileName" />
+
+<!--            <androidx.appcompat.widget.AppCompatRatingBar-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+
+<!--                app:layout_constraintEnd_toEndOf="@+id/downloadButton"-->
+<!--                app:layout_constraintStart_toStartOf="@+id/downloadButton"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/downloadButton" />-->
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

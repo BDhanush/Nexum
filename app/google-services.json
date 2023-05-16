@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "996972322226",
+    "project_id": "nexum-c8155",
+    "storage_bucket": "nexum-c8155.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:996972322226:android:6e062047120cd2e59e58ab",
+        "android_client_info": {
+          "package_name": "com.example.nexum"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "996972322226-90920r52mo3b4155ja8bm4506u5imiq2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAiBStoIYCB4WOy7o2ZX9svmEsb9mpDl5U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "996972322226-90920r52mo3b4155ja8bm4506u5imiq2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/event"
+        android:enabled="true"
+        android:icon="@drawable/selector_event"
+        android:title="Event"/>
+    <item
+        android:id="@+id/opportunities"
+        android:enabled="true"
+        android:icon="@drawable/selector_oppurtunities"
+        android:title="Opportunities"/>
+    <item
+        android:id="@+id/shared"
+        android:enabled="true"
+        android:icon="@drawable/selector_shared"
+        android:title="Shared"/>
+    <item
+        android:id="@+id/location"
+        android:enabled="true"
+        android:icon="@drawable/selector_location"
+        android:title="Location"/>
+</menu>
