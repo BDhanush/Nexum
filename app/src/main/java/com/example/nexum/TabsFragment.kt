@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.core.view.get
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.widget.ViewPager2
@@ -40,9 +41,8 @@ class TabsFragment() : Fragment() {
             else-> events
         }
         val tabsViewPager: ViewPager2 = view.findViewById(R.id.viewPager)
-//        tabsViewPager.offscreenPageLimit = 3
 
-        val tabsAdapter=ProfileTabAdapter(this,fragment)
+        val tabsAdapter = ProfileTabAdapter(this,fragment)
         val tabLayout: TabLayout = view.findViewById(R.id.tabLayout)
         tabsViewPager.adapter=tabsAdapter
 
