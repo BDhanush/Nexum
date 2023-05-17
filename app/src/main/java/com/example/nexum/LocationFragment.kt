@@ -39,13 +39,6 @@ class LocationFragment : Fragment() {
     // TODO: Rename and change types of parameters
 
 
-    val heatData = mutableListOf<heatmapData>()
-    heatData.add(heatmapData(37.782, -122.447))
-    heatData.add(heatmapData(37.782, -122.445))
-
-
-
-
 
     // Request code for location permission
         private val LOCATION_PERMISSION_REQUEST_CODE = 1

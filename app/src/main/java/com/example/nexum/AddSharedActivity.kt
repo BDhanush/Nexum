@@ -44,10 +44,14 @@ class AddSharedActivity : AppCompatActivity() {
             binding.renameInput.setText((data!!.data).toString())
             val cursor = contentResolver.query(data.data!!, null, null, null, null)
             if (cursor != null && cursor.moveToFirst()) {
-                binding.renameInput.setText(cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)).dropLastWhile{it!='.'}.dropLast(1))
+                val fileName=cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME))
+                binding.fileName.setText("Selected File: $fileName")
+                binding.renameInput.setText(fileName.dropLastWhile { it!='.' }.dropLast(1))
             }
 
             binding.renameLayout.visibility= View.VISIBLE
+            binding.fileName.visibility= View.VISIBLE
+
         }
     }
 }
