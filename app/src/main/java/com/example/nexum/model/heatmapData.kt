@@ -1,7 +1,6 @@
 package com.example.nexum.model
 
 data class heatmapData(
-    val lat: Double,
-    val lng: Double,
-    val intensity: Double
+    val latitude: Double,
+    val longitude: Double
 )

@@ -15,6 +15,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.core.app.ActivityCompat
 import androidx.core.location.LocationManagerCompat.getCurrentLocation
+import com.example.nexum.model.heatmapData
 import com.google.android.gms.maps.CameraUpdateFactory
 //import androidx.lifecycle.viewmodel.CreationExtras.Empty.map
 import com.google.android.gms.maps.GoogleMap
@@ -36,8 +37,13 @@ private const val ARG_PARAM2 = "param2"
  */
 class LocationFragment : Fragment() {
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+
+    val heatData = mutableListOf<heatmapData>()
+    heatData.add(heatmapData(37.782, -122.447))
+    heatData.add(heatmapData(37.782, -122.445))
+
+
 
 
 
