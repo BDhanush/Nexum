@@ -71,10 +71,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="description"
+            android:gravity="top"
             android:textAppearance="?attr/textAppearanceBodyMedium"
             android:textColor="?android:attr/textColorSecondary"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button" />
+            app:layout_constraintTop_toBottomOf="@+id/button"
+            app:layout_constraintBottom_toTopOf="@id/location"/>
+
         <TextView
             android:id="@+id/location"
             android:layout_width="wrap_content"
@@ -83,9 +86,29 @@
             android:text="Venue: "
             android:textAppearance="?attr/textAppearanceBodyMedium"
             android:textColor="?android:attr/textColorSecondary"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/description"
-            app:layout_constraintStart_toStartOf="parent"
-            />
+            android:gravity="bottom"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:gravity="bottom"
+            android:text="11/11/11"
+            app:layout_constraintBottom_toTopOf="@id/time"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button" />
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:text="6:30 PM"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/date"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <Button
             android:id="@+id/button"
@@ -94,6 +117,8 @@
             android:layout_height="wrap_content"
             android:text="interest"
             app:icon="@drawable/baseline_add_24"
+            android:gravity="top"
+            app:layout_constraintBottom_toTopOf="@id/date"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

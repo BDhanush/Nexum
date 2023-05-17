@@ -92,7 +92,9 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 R.id.shared->{
-//                    addFile();
+                    Intent(this,AddSharedActivity::class.java).also {
+                        startActivity(it)
+                    }
                 }
                 else->{
 
@@ -102,22 +104,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-//    private fun addFile() {
-//        val intent = Intent()
-//        intent.type = "/*"
-//        intent.action = Intent.ACTION_GET_CONTENT
-//
-//        startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
-//    }
-//
-//    @Deprecated("Deprecated in Java")
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if(resultCode== Activity.RESULT_OK && requestCode==SELECT_PICTURE)
-//        {
-//
-//        }
-//    }
+
 
     private fun loadFragment(fragment: Fragment){
         supportFragmentManager.beginTransaction().hide(activeFragment).show(fragment).commit()

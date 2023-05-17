@@ -4,7 +4,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:fillViewport="true"
+    android:scrollbars="vertical">
     <LinearLayout
 
         android:layout_width="match_parent"
@@ -57,7 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:hint="Product Name"
+            android:hint="Event Name"
             >
 
             <com.google.android.material.textfield.TextInputEditText
@@ -99,22 +100,14 @@
                 android:layout_height="wrap_content"
                 android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/locationLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
 
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/dateText"
             android:layout_margin="8dp"
-            android:hint="Location"
-            >
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/locationInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="text" />
-        </com.google.android.material.textfield.TextInputLayout>
+            android:visibility="gone"
+            />
 
         <Button
             android:layout_margin="8dp"
@@ -122,7 +115,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Pick Date and Time"
-            android:gravity="center"
+            style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+            app:icon="@drawable/baseline_calendar_today_24"
             />
 
         <Button

@@ -19,8 +19,6 @@ class AddOpportunityActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-
-
     }
 
 }
