@@ -1,4 +1,4 @@
-package com.example.nexum
+package com.example.nexum.adapter
 
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
