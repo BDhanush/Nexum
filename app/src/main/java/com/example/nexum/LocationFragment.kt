@@ -12,16 +12,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.viewmodel.CreationExtras.Empty.map
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.CameraPosition
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
+import com.google.maps.android.heatmaps.HeatmapTileProvider
+import org.json.JSONException
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -171,16 +172,16 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
     }
 
     override fun onMapReady(p0: GoogleMap) {
-        val one = LatLng(27.700769, 85.300140)
-        val two = LatLng(27.800769, 85.400140)
+        val northeast = LatLng(17.573360877719452, 78.4386573869753) // Upper right corner
+        val southwest = LatLng(17.568494753627725, 78.43338262083921) // Lowerleftcorner
 
         val builder = LatLngBounds.Builder()
 
         //add them to builder
 
         //add them to builder
-        builder.include(one)
-        builder.include(two)
+        builder.include(northeast)
+        builder.include(southwest)
 
         val bounds = builder.build()
 
@@ -208,6 +209,20 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
         //set zoom to level to current so that you won't be able to zoom out viz. move outside bounds
 
         //set zoom to level to current so that you won't be able to zoom out viz. move outside bounds
+        addHeatMap(p0)
         p0.setMinZoomPreference(p0.getCameraPosition().zoom)
     }
+    private fun addHeatMap(googleMap: GoogleMap) {
+        var latLngs: List<LatLng?>? = listOf()
+
+        // Get the data: latitude/longitude positions of police stations.
+        // Create a heat map tile provider, passing it the latlngs of the police stations.
+        val provider = HeatmapTileProvider.Builder()
+            .data(latLngs)
+            .build()
+
+        // Add a tile overlay to the map, using the heat map tile provider.
+        googleMap.addTileOverlay(TileOverlayOptions().tileProvider(provider))
+    }
+
 }
