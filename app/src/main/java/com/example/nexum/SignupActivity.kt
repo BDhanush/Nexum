@@ -41,7 +41,7 @@ class SignupActivity : AppCompatActivity() {
         val username:EditText=findViewById(R.id.usernameInput)
 
         auth = Firebase.auth
-        database = FirebaseDatabase.getInstance("https://shortvideoapp-e7456-default-rtdb.asia-southeast1.firebasedatabase.app/").reference
+        database = FirebaseDatabase.getInstance().reference
 
         if (password.text.toString() != confirmPassword.text.toString()) {
             Toast.makeText(
