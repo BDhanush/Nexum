@@ -212,8 +212,11 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
         p0.setMinZoomPreference(p0.getCameraPosition().zoom)
     }
     private fun addHeatMap(googleMap: GoogleMap) {
-        var latLngs: List<LatLng?>? = listOf()
-
+        var latLngs: List<LatLng> = listOf(LatLng(17.573360877719452, 78.4386573869753),LatLng(17.576182553320635, 78.43914773918324),LatLng(17.566954023457843, 78.43072619175284))
+        if(latLngs.isEmpty())
+        {
+            return;
+        }
         // Get the data: latitude/longitude positions of police stations.
         // Create a heat map tile provider, passing it the latlngs of the police stations.
         val provider = HeatmapTileProvider.Builder()
