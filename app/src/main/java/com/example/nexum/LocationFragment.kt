@@ -171,8 +171,8 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
     }
 
     override fun onMapReady(p0: GoogleMap) {
-        val northeast = LatLng(17.573360877719452, 78.4386573869753) // Upper right corner
-        val southwest = LatLng(17.568494753627725, 78.43338262083921) // Lowerleftcorner
+        val northeast = LatLng(17.576182553320635, 78.43914773918324 ) // Upper right corner
+        val southwest = LatLng(17.566954023457843, 78.43072619175284) // Lowerleftcorner
 
         val builder = LatLngBounds.Builder()
 
@@ -194,6 +194,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
 
         // 20% padding
         val padding = (width * 0.20).toInt()
+
 
         //set latlong bounds
 

@@ -2,13 +2,15 @@
     <string name="app_name">Nexum</string>
     <string name="Username">Username</string>
     <string name="Password">Password</string>
-    <string name="log_in">Log in</string>
-    <string name="forgot_password_question">Forgot Password?</string>
+    <string name="log_in">LOG IN</string>
+    <string name="forgot_password_question">FORGOT PASSWORD?</string>
     <string name="login_text">LOGIN</string>
     <string name="signup_text">SIGNUP</string>
     <string name="email">Email</string>
-    <string name="have_an_account">Already have an account? Login</string>
-    <string name="no_account">Don\'t have an account? Signup</string>
+    <string name="have_an_account">ALREADY HAVE AN ACCOUNT? LOGIN</string>
+    <string name="no_account">DON\T HAVE AN ACCOUNT? SIGNUP</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Firstname">First Name</string>
+    <string name="Lastname">Last Name</string>
 </resources>
