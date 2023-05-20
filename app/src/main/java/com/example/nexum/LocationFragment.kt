@@ -21,7 +21,6 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.maps.android.heatmaps.HeatmapTileProvider
-import org.json.JSONException
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -171,8 +170,9 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
     }
 
     override fun onMapReady(p0: GoogleMap) {
-        val northeast = LatLng(17.573360877719452, 78.4386573869753) // Upper right corner
-        val southwest = LatLng(17.568494753627725, 78.43338262083921) // Lowerleftcorner
+        p0.mapType = GoogleMap.MAP_TYPE_HYBRID;
+        val northeast = LatLng(17.576182553320635, 78.43914773918324) // Upper right corner
+        val southwest = LatLng(17.566954023457843, 78.43072619175284) // Lowerleftcorner
 
         val builder = LatLngBounds.Builder()
 
@@ -212,10 +212,14 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
         p0.setMinZoomPreference(p0.getCameraPosition().zoom)
     }
     private fun addHeatMap(googleMap: GoogleMap) {
-        var latLngs: List<LatLng?>? = listOf()
+        var latLngs: List<LatLng> = listOf(LatLng(17.573360877719452, 78.4386573869753),LatLng(17.576182553320635, 78.43914773918324),LatLng(17.566954023457843, 78.43072619175284))
 
         // Get the data: latitude/longitude positions of police stations.
         // Create a heat map tile provider, passing it the latlngs of the police stations.
+        if(latLngs.isEmpty())
+        {
+            return;
+        }
         val provider = HeatmapTileProvider.Builder()
             .data(latLngs)
             .build()
