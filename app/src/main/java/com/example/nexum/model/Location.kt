@@ -1,11 +1,13 @@
 package com.example.nexum.model
 
+import com.google.firebase.database.Exclude
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.IgnoreExtraProperties
 import java.math.BigInteger
 import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
-
-class Location(val latLong: Long) {
+@IgnoreExtraProperties
+data class Location(val latLong: Long) {
 
     fun push(uid:String)
     {
@@ -23,5 +25,13 @@ class Location(val latLong: Long) {
             hashtext = "0$hashtext"
         }
         return hashtext
+
+    }
+    @Exclude
+    fun toMap(): Map<String, Any?> {
+        return mapOf(
+            "latLong" to latLong,
+
+        )
     }
 }
