@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nexum.adapter.OpportunityItemAdapter
 import com.example.nexum.adapter.SharedItemAdapter
+import com.example.nexum.firebasefunctions.oppoFromMap
 import com.example.nexum.model.Opportunity
 import com.example.nexum.model.SharedFile
 import com.google.firebase.database.DataSnapshot
@@ -108,8 +109,5 @@ class OpportunitiesFragment : Fragment() {
             }
         })
     }
-    private fun oppoFromMap(map:Map<String,Any?>): Opportunity
-    {
-        return Opportunity(map["uid"] as String,map["title"] as String,map["description"] as String,map["link"] as String,map["datePosted"] as Long)
-    }
+
 }

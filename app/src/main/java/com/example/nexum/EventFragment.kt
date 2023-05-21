@@ -18,6 +18,7 @@ import com.example.nexum.adapter.EventItemAdapter
 import com.example.nexum.databinding.ActivityAddEventBinding
 import com.example.nexum.databinding.ActivityMainBinding
 import com.example.nexum.databinding.FragmentEventBinding
+import com.example.nexum.firebasefunctions.eventFromMap
 import com.example.nexum.model.Event
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -102,10 +103,4 @@ class EventFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_event, container, false)
     }
 
-    private fun eventFromMap(map:Map<String,Any?>):Event
-    {
-        val event=Event(map["uid"] as String,map["title"] as String,map["description"] as String,map["venue"] as String,map["date"] as String,map["time"] as String)
-        event.previewImage=map["previewImage"] as String
-        return event
-    }
 }

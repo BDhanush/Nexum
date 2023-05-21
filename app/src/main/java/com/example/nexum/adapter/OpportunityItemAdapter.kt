@@ -1,15 +1,21 @@
 package com.example.nexum.adapter
 
-import android.content.Context
+import android.content.ContentValues
+import android.content.Intent
+import android.net.Uri
+import android.util.Log
 import android.view.*
 import android.widget.*
-import android.widget.SeekBar.*
-import com.example.nexum.R
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
-import com.example.nexum.model.Event
+import com.example.nexum.R
+import com.example.nexum.firebasefunctions.userFromMap
 import com.example.nexum.model.Opportunity
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.firebase.database.*
+import java.sql.Date
+import java.text.SimpleDateFormat
+
 
 class OpportunityItemAdapter(val dataset:MutableList<Opportunity>): RecyclerView.Adapter<OpportunityItemAdapter.ItemViewHolder>()
 {
@@ -20,9 +26,6 @@ class OpportunityItemAdapter(val dataset:MutableList<Opportunity>): RecyclerView
         val title:TextView=view.findViewById(R.id.title)
         val datePosted:TextView=view.findViewById(R.id.datePosted)
         val description:TextView=view.findViewById(R.id.description)
-
-
-
 
         init{
 
@@ -38,8 +41,31 @@ class OpportunityItemAdapter(val dataset:MutableList<Opportunity>): RecyclerView
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item = dataset[position]
-//        holder.username.text= getUsername(item.uid);
-//        holder.profilePicture.setImageURI(Uri.parse(getProfilePicture(item.uid)));
+
+        var database = FirebaseDatabase.getInstance("https://nexum-c8155-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("users")
+        database.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // Get Post object and use the values to update the UI
+                val userMap=dataSnapshot.child(item.uid!!).value as Map<String,Any?>
+                val user = userFromMap(userMap)
+                holder.username.text = user.firstName + " " + user.lastName
+                if(user.profilePicture!=null)
+                    holder.profilePicture.setImageURI(user.profilePicture!!.toUri())
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.w(ContentValues.TAG, "loadPost:onCancelled", databaseError.toException())
+            }
+        })
+
+        holder.title.text=item.title
+        holder.description.text=item.description
+        holder.datePosted.text= SimpleDateFormat("dd/MM/yy hh:mm a").format(Date(item.datePosted))
+        holder.applyButton.setOnClickListener {
+            val browse = Intent(Intent.ACTION_VIEW, Uri.parse(item.link))
+            holder.itemView.context.startActivity(browse)
+        }
 
     }
     /**

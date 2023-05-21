@@ -12,8 +12,7 @@ import com.google.android.play.integrity.internal.w
 import kotlinx.coroutines.processNextEventInCurrentThread
 
 @IgnoreExtraProperties
-class User(val firstName:String?=null,val lastName:String?=null,val email:String?=null) {
-    var profilePicture:String?=null
+class User(val firstName:String?=null,val lastName:String?=null,val email:String?=null,var profilePicture:String?=null) {
     init{
         val baseColor=Color.WHITE
         val red = (baseColor.red+(0..256).random())/2

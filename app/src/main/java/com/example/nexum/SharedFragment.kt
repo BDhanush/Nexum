@@ -3,16 +3,15 @@ package com.example.nexum
 import android.content.ContentValues
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.nexum.adapter.EventItemAdapter
 import com.example.nexum.adapter.SharedItemAdapter
-import com.example.nexum.model.Event
+import com.example.nexum.firebasefunctions.fileFromMap
 import com.example.nexum.model.SharedFile
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -94,7 +93,7 @@ class SharedFragment : Fragment() {
                 // Get Post object and use the values to update the UI
                 for(snapshot in dataSnapshot.children) {
                     val fileMap=snapshot.value as Map<String,Any?>
-                    val file=fileFromMap(fileMap)
+                    val file= fileFromMap(fileMap)
                     dataset.add(file)
                 }
                 adapter = SharedItemAdapter(dataset)
@@ -109,8 +108,5 @@ class SharedFragment : Fragment() {
             }
         })
     }
-    private fun fileFromMap(map:Map<String,Any?>): SharedFile
-    {
-        return SharedFile(map["uid"] as String,map["title"] as String,map["fileURL"] as String,map["datePosted"] as Long)
-    }
+
 }
