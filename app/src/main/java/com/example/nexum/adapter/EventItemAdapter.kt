@@ -17,6 +17,7 @@ class EventItemAdapter(val dataset:MutableList<Event>): RecyclerView.Adapter<Eve
         val previewImage:ImageView= view.findViewById(R.id.previewImage)
         val title:TextView=view.findViewById(R.id.title)
 
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
