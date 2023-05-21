@@ -1,8 +1,12 @@
 package com.example.nexum
 
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.example.nexum.databinding.ActivityAddEventBinding
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
@@ -17,7 +21,8 @@ import java.util.*
 class AddEventActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddEventBinding
-
+    private val SELECT_PICTURE = 200;
+    private var selectedImageUri: Uri?=null
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -62,6 +67,34 @@ class AddEventActivity : AppCompatActivity() {
             binding.dateText.visibility= View.VISIBLE
         }
 
+        binding.addImage.setOnClickListener {
+            chooseImage()
+        }
+
+    }
+    private fun chooseImage()
+    {
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
+
+    }
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode== Activity.RESULT_OK && requestCode==SELECT_PICTURE)
+        {
+            selectedImageUri = data!!.data
+
+            if(selectedImageUri!=null)
+            {
+                binding.addImage.text="Change Preview Image"
+                binding.addImage.icon = ContextCompat.getDrawable(this, R.drawable.baseline_add_24)
+            }
+
+        }
     }
 
 }
