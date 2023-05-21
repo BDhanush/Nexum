@@ -14,6 +14,7 @@ data class Opportunity(val uid:String?=null,val title:String?=null,val descripti
             "title" to title,
             "description" to description,
             "link" to link,
+            "datePosted" to datePosted
         )
     }
 
