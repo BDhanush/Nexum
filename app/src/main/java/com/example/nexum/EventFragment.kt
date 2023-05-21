@@ -75,6 +75,7 @@ class EventFragment : Fragment() {
         var database = FirebaseDatabase.getInstance("https://nexum-c8155-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("events")
         database.addValueEventListener(object :ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                dataset.clear()
                 // Get Post object and use the values to update the UI
                 for(snapshot in dataSnapshot.children) {
                     val eventMap=snapshot.value as Map<String,Any?>

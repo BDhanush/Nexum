@@ -10,7 +10,7 @@ import com.example.nexum.model.Event
 import com.example.nexum.model.SharedFile
 import com.google.firebase.database.*
 
-class SharedItemAdapter(private val context: Context, val dataset:MutableList<SharedFile>): RecyclerView.Adapter<SharedItemAdapter.ItemViewHolder>()
+class SharedItemAdapter(val dataset:MutableList<SharedFile>): RecyclerView.Adapter<SharedItemAdapter.ItemViewHolder>()
 {
     inner class ItemViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
 
