@@ -14,33 +14,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Nexum"
-<<<<<<< HEAD
-        tools:targetApi="31">
-        <activity
-            android:name=".OpportunityDetailsActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-=======
         tools:targetApi="33" >
->>>>>>> login
+
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${GOOGLE_MAPS_API_KEY}" />
 
         <activity
-<<<<<<< HEAD
-            android:name=".MainActivity"
-            android:exported="true">
-=======
             android:name=".LoginActivity"
             android:exported="true"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
->>>>>>> login
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
