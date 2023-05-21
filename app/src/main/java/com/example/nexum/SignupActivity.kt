@@ -38,10 +38,12 @@ class SignupActivity : AppCompatActivity() {
         val email:EditText=findViewById(R.id.emailInput)
         val password:EditText=findViewById(R.id.passwordInput)
         val confirmPassword:EditText=findViewById(R.id.confirmPasswordInput)
-        val username:EditText=findViewById(R.id.usernameInput)
+        val firstName:EditText=findViewById(R.id.firstnameInput)
+        val lastName:EditText=findViewById(R.id.lastnameInput)
+
 
         auth = Firebase.auth
-        database = FirebaseDatabase.getInstance().reference
+        database = FirebaseDatabase.getInstance("https://nexum-c8155-default-rtdb.asia-southeast1.firebasedatabase.app/").reference
 
         if (password.text.toString() != confirmPassword.text.toString()) {
             Toast.makeText(
@@ -59,7 +61,7 @@ class SignupActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
 
-                writeNewUser(auth.currentUser!!.uid, firstName = "", lastName = "", email = email.text.toString())
+                writeNewUser(auth.currentUser!!.uid, firstName.text.toString() , lastName.text.toString(), email = email.text.toString())
 
                 finish()
 
