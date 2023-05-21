@@ -4,25 +4,19 @@ import android.content.Context
 import android.content.Intent
 import android.view.*
 import android.widget.*
-import android.widget.SeekBar.*
-import androidx.core.content.ContextCompat.startActivity
+import androidx.cardview.widget.CardView
+import androidx.core.net.toUri
 import com.example.nexum.R
 import androidx.recyclerview.widget.RecyclerView
-import com.example.nexum.AddOpportunityActivity
 import com.example.nexum.EventDetailsActivity
 import com.example.nexum.model.Event
-import com.google.firebase.database.*
 
-class EventItemAdapter(private val context: Context, val dataset:MutableList<Event>): RecyclerView.Adapter<EventItemAdapter.ItemViewHolder>()
+class EventItemAdapter(val dataset:MutableList<Event>): RecyclerView.Adapter<EventItemAdapter.ItemViewHolder>()
 {
     inner class ItemViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
-        val addButton:Button = view.findViewById(R.id.addButton)
-        init{
-            addButton.setOnClickListener {
-                val intent=Intent(view.context, EventDetailsActivity::class.java)
-                view.context.startActivity(intent)
-            }
-        }
+        val previewImage:ImageView= view.findViewById(R.id.previewImage)
+        val title:TextView=view.findViewById(R.id.title)
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -36,11 +30,9 @@ class EventItemAdapter(private val context: Context, val dataset:MutableList<Eve
         val item = dataset[position]
 //        holder.username.text= getUsername(item.uid);
 //        holder.profilePicture.setImageURI(Uri.parse(getProfilePicture(item.uid)));
-        holder.addButton.setOnClickListener {
-            val intent=Intent(context, EventDetailsActivity::class.java)
-            context.startActivity(intent)
-        }
 
+        holder.previewImage.setImageURI(item.previewImage?.toUri())
+        holder.title.text = item.title
     }
     /**
      * Return the size of your dataset (invoked by the layout manager)
