@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.nexum.databinding.ActivityAddEventBinding
@@ -89,6 +90,7 @@ class AddEventActivity : AppCompatActivity() {
             )
             if(checkFields()) {
                 uploadEvent(event)
+                finish()
             }
         }
 
@@ -116,14 +118,12 @@ class AddEventActivity : AppCompatActivity() {
                     val downloadUri = task.result
                     event.previewImage=downloadUri.toString()
                     database.child("events").child(key!!).setValue(event)
-                } else {
-                    // Handle failures
-                    // ...
                 }
             }
         }else{
             database.child("events").child(key!!).setValue(event)
         }
+        Toast.makeText(this,"Event added",Toast.LENGTH_SHORT).show()
 
     }
     private fun checkFields():Boolean

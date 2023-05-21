@@ -7,7 +7,7 @@ import com.google.firebase.database.IgnoreExtraProperties
 data class Event(val uid:String?=null, val title:String?=null, val description:String?=null, val venue:String?=null,val date:String?,val time:String?){
     val interested:MutableList<String> = mutableListOf()
     var previewImage:String?=null
-
+    val images:MutableList<String?> = mutableListOf()
     init{
 
     }
@@ -20,7 +20,8 @@ data class Event(val uid:String?=null, val title:String?=null, val description:S
             "venue" to venue,
             "date" to date,
             "time" to time,
-            "previewImage" to previewImage
+            "previewImage" to previewImage,
+            "images" to images
         )
     }
 }
