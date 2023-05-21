@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.nexum.databinding.ActivityAddEventBinding
 import com.example.nexum.databinding.ActivityAddOpportunityBinding
@@ -42,6 +43,8 @@ class AddOpportunityActivity : AppCompatActivity() {
         val database = FirebaseDatabase.getInstance("https://nexum-c8155-default-rtdb.asia-southeast1.firebasedatabase.app/").reference
         val key = database.child("opportunities").push().key
         database.child("opportunities").child(key!!).setValue(opportunity)
+        Toast.makeText(this,"Opportunities added", Toast.LENGTH_SHORT).show()
+        finish()
     }
 
     private fun checkFields():Boolean

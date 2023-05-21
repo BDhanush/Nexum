@@ -10,7 +10,7 @@ import com.example.nexum.model.Event
 import com.example.nexum.model.Opportunity
 import com.google.firebase.database.*
 
-class OpportunityItemAdapter(private val context: Context, val dataset:MutableList<Opportunity>): RecyclerView.Adapter<OpportunityItemAdapter.ItemViewHolder>()
+class OpportunityItemAdapter(val dataset:MutableList<Opportunity>): RecyclerView.Adapter<OpportunityItemAdapter.ItemViewHolder>()
 {
     inner class ItemViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
 
