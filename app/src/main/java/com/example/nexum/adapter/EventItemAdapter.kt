@@ -10,12 +10,29 @@ import com.example.nexum.R
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nexum.EventDetailsActivity
 import com.example.nexum.model.Event
+import com.google.android.material.imageview.ShapeableImageView
 
 class EventItemAdapter(val dataset:MutableList<Event>): RecyclerView.Adapter<EventItemAdapter.ItemViewHolder>()
 {
     inner class ItemViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         val previewImage:ImageView= view.findViewById(R.id.previewImage)
         val title:TextView=view.findViewById(R.id.title)
+        val username:TextView=view.findViewById(R.id.username)
+        val profilePicture:ShapeableImageView=view.findViewById(R.id.profilePicture)
+        val button:Button=view.findViewById(R.id.button)
+        val description:TextView=view.findViewById(R.id.description)
+        val date:TextView=view.findViewById(R.id.date)
+        val location:TextView=view.findViewById(R.id.location)
+        val time:TextView=view.findViewById(R.id.time)
+
+
+
+
+
+
+
+
+
 
 
     }
