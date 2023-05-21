@@ -170,8 +170,12 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
     }
 
     override fun onMapReady(p0: GoogleMap) {
+<<<<<<< HEAD
         p0.mapType = GoogleMap.MAP_TYPE_HYBRID;
         val northeast = LatLng(17.576182553320635, 78.43914773918324) // Upper right corner
+=======
+        val northeast = LatLng(17.576182553320635, 78.43914773918324 ) // Upper right corner
+>>>>>>> login
         val southwest = LatLng(17.566954023457843, 78.43072619175284) // Lowerleftcorner
 
         val builder = LatLngBounds.Builder()
@@ -195,6 +199,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
         // 20% padding
         val padding = (width * 0.20).toInt()
 
+
         //set latlong bounds
 
         //set latlong bounds
@@ -213,7 +218,14 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
     }
     private fun addHeatMap(googleMap: GoogleMap) {
         var latLngs: List<LatLng> = listOf(LatLng(17.573360877719452, 78.4386573869753),LatLng(17.576182553320635, 78.43914773918324),LatLng(17.566954023457843, 78.43072619175284))
+<<<<<<< HEAD
 
+=======
+        if(latLngs.isEmpty())
+        {
+            return;
+        }
+>>>>>>> login
         // Get the data: latitude/longitude positions of police stations.
         // Create a heat map tile provider, passing it the latlngs of the police stations.
         if(latLngs.isEmpty())
