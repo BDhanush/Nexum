@@ -1,16 +1,22 @@
 package com.example.nexum.adapter
 
+import android.app.*
+import android.app.PendingIntent.getActivity
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.util.Log
 import android.view.*
 import android.widget.*
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.net.toUri
-import com.example.nexum.R
 import androidx.recyclerview.widget.RecyclerView
-import com.example.nexum.EventDetailsActivity
+import com.example.nexum.*
+import com.example.nexum.Notification
 import com.example.nexum.firebasefunctions.userFromMap
 import com.example.nexum.model.Event
 import com.google.android.material.imageview.ShapeableImageView
@@ -18,6 +24,11 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import java.time.OffsetDateTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 class EventItemAdapter(val dataset:MutableList<Event>): RecyclerView.Adapter<EventItemAdapter.ItemViewHolder>()
 {
@@ -51,6 +62,7 @@ class EventItemAdapter(val dataset:MutableList<Event>): RecyclerView.Adapter<Eve
         return ItemViewHolder(adapterLayout)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item = dataset[position]
 //        holder.username.text= getUsername(item.uid);
@@ -79,7 +91,67 @@ class EventItemAdapter(val dataset:MutableList<Event>): RecyclerView.Adapter<Eve
                 Log.w(ContentValues.TAG, "loadPost:onCancelled", databaseError.toException())
             }
         })
+        holder.interestButton.setOnClickListener {
+            fun showAlert(time: Long, title: String, message: String)
+            {
+                val date = Date(time)
+                val dateFormat = android.text.format.DateFormat.getLongDateFormat(holder.itemView.context.applicationContext)
+                val timeFormat = android.text.format.DateFormat.getTimeFormat(holder.itemView.context.applicationContext)
+
+                AlertDialog.Builder(holder.itemView.context)
+                    .setTitle("Notification Scheduled")
+                    .setMessage(
+                        "Title: " + title +
+                                "\nMessage: " + message +
+                                "\nAt: " + dateFormat.format(date) + " " + timeFormat.format(date))
+                    .setPositiveButton("Okay"){_,_ ->}
+                    .show()
+            }
+            @RequiresApi(Build.VERSION_CODES.O)
+            fun scheduleNotification(title:String, date:String, time:String)
+            {
+                val intent = Intent(holder.itemView.context.applicationContext, Notification::class.java)
+                val message = "$title at $time"
+                intent.putExtra(titleExtra, title)
+                intent.putExtra(messageExtra, message)
+
+                val pendingIntent = PendingIntent.getBroadcast(
+                    holder.itemView.context.applicationContext,
+                    notificationID,
+                    intent,
+                    PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+                )
+
+                val alarmManager = holder.itemView.context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                val epochString = date+" "+time
+                val dtf: DateTimeFormatter = DateTimeFormatter.ofPattern("MMM d, yyyy h:mm a").withZone(
+                    ZoneId.of(ZoneId.systemDefault().id))
+                val zdt: ZonedDateTime = ZonedDateTime.parse(epochString,dtf)
+                alarmManager.setExactAndAllowWhileIdle(
+                    AlarmManager.RTC_WAKEUP,
+                    zdt.toInstant().toEpochMilli(),
+                    pendingIntent
+                )
+                showAlert(zdt.toInstant().toEpochMilli(), title, message)
+            }
+
+            @RequiresApi(Build.VERSION_CODES.O)
+            fun createNotificationChannel()
+            {
+                val name = "Notif Channel"
+                val desc = "Event remainders"
+                val importance = NotificationManager.IMPORTANCE_DEFAULT
+                val channel = NotificationChannel(channelID, name, importance)
+                channel.description = desc
+                val notificationManager = holder.itemView.context.getSystemService(AppCompatActivity.NOTIFICATION_SERVICE) as NotificationManager
+                notificationManager.createNotificationChannel(channel)
+            }
+            createNotificationChannel()
+            scheduleNotification(item.title!!,item.date!!,item.time!!)
+        }
     }
+
+
     /**
      * Return the size of your dataset (invoked by the layout manager)
      */ override fun getItemCount() = dataset.size
