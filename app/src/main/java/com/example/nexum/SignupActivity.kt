@@ -11,6 +11,8 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 class SignupActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
@@ -40,10 +42,21 @@ class SignupActivity : AppCompatActivity() {
         val confirmPassword:EditText=findViewById(R.id.confirmPasswordInput)
         val firstName:EditText=findViewById(R.id.firstnameInput)
         val lastName:EditText=findViewById(R.id.lastnameInput)
+        val p: Pattern = Pattern.compile("^[a-z]+([2][0-9])(ucse|uari|ucam|umee|uece|ueee)[0-9][0-9][0-9]@mahindrauniversity.edu.in\$")
+        val m: Matcher = p.matcher(email.text.toString())
+        val emailCheck: Boolean = m.matches()
 
 
         auth = Firebase.auth
         database = FirebaseDatabase.getInstance("https://nexum-c8155-default-rtdb.asia-southeast1.firebasedatabase.app/").reference
+
+        if (!emailCheck) {
+            Toast.makeText(
+                this, "Only provide Mahindra email.",
+                Toast.LENGTH_SHORT
+            ).show()
+            return
+        }
 
         if (password.text.toString() != confirmPassword.text.toString()) {
             Toast.makeText(
