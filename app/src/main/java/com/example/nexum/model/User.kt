@@ -9,6 +9,7 @@ import androidx.core.graphics.blue
 import androidx.core.graphics.green
 import androidx.core.graphics.red
 import com.google.android.play.integrity.internal.w
+import kotlinx.coroutines.processNextEventInCurrentThread
 
 @IgnoreExtraProperties
 class User(val firstName:String?=null,val lastName:String?=null,val email:String?=null) {
@@ -27,6 +28,7 @@ class User(val firstName:String?=null,val lastName:String?=null,val email:String
             "firstName" to firstName,
             "lastName" to lastName,
             "email" to email,
+            "profilePicture" to profilePicture
         )
     }
 

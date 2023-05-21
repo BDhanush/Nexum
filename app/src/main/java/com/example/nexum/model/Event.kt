@@ -20,6 +20,7 @@ data class Event(val uid:String?=null, val title:String?=null, val description:S
             "venue" to venue,
             "date" to date,
             "time" to time,
+            "previewImage" to previewImage
         )
     }
 }
