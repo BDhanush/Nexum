@@ -11,7 +11,6 @@ import android.location.Criteria
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
-import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -21,7 +20,6 @@ import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -48,7 +46,6 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
     private val tabsFragment = listOf<Fragment>(TabsFragment(),TabsFragment(),TabsFragment(),LocationFragment())
     private var activeFragment=tabsFragment[0]
-    var dataset=mutableListOf<String>()
     init {
         val bundle = listOf(Bundle(),Bundle(),Bundle())
         bundle[0].putString("fragment", "events")
@@ -71,40 +68,7 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        dataset.add("Srinath")
-        dataset.add("Bommi")
-        dataset.add("apple")
-        dataset.add("apprehension")
-
         val navbar:BottomNavigationView = findViewById(R.id.bottom_navigation)
-        val searchView: SearchView = findViewById(R.id.searchView)
-        val searchBar: SearchBar = findViewById(R.id.searchBar)
-        searchView.setupWithSearchBar(searchBar)
-        searchView.clearFocus()
-
-        searchView.editText.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                // TODO Auto-generated method stub
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-                // TODO Auto-generated method stub
-            }
-
-            @RequiresApi(Build.VERSION_CODES.O)
-            override fun afterTextChanged(s: Editable) {
-                // filter your list from your input
-                filter(s.toString())
-                //you can use runnable postDelayed like 500 ms to delay search text
-            }
-        })
-
-        searchView.editText.setOnEditorActionListener { v: TextView?, actionId: Int, event: KeyEvent? ->
-                searchBar.text = searchView.text
-                searchView.hide()
-                false
-        }
 
 
 //        loadFragment(tabsFragment[0])
@@ -171,24 +135,6 @@ class MainActivity : AppCompatActivity() {
 
         }
     }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun filter(searchPrefix:String) {
-        // creating a new array list to filter our data.
-        val filteredList = mutableListOf<String>()
-
-        // running a for loop to compare elements.
-        for (item in dataset) {
-            // checking if the entered string matched with any item of our recycler view.
-            if (item.contains(searchPrefix, true) && searchPrefix.isNotEmpty()) {
-                // if the item is matched we are
-                // adding it to our filtered list.
-                filteredList.add(item)
-            }
-        }
-        Log.i("check", filteredList.toString())
-    }
-
 
 
     private fun loadFragment(fragment: Fragment){
