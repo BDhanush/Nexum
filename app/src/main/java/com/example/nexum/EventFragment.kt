@@ -86,7 +86,6 @@ class EventFragment : Fragment() {
                 adapter = EventItemAdapter(dataset)
                 eventRecyclerView.adapter=adapter
 
-                Toast.makeText(context,"${adapter.itemCount}",Toast.LENGTH_SHORT).show()
             }
 
             override fun onCancelled(databaseError: DatabaseError) {

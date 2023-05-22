@@ -9,16 +9,16 @@ import androidx.core.graphics.blue
 import androidx.core.graphics.green
 import androidx.core.graphics.red
 import com.google.android.play.integrity.internal.w
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.processNextEventInCurrentThread
+import java.io.ByteArrayOutputStream
+import java.lang.System.out
 
 @IgnoreExtraProperties
 class User(val firstName:String?=null,val lastName:String?=null,val email:String?=null,var profilePicture:String?=null) {
     init{
-        val baseColor=Color.WHITE
-        val red = (baseColor.red+(0..256).random())/2
-        val green = (baseColor.green+(0..256).random())/2
-        val blue = (baseColor.blue+(0..256).random())/2
-        val color = Color.rgb(red,green,blue)
+
 
     }
     @Exclude

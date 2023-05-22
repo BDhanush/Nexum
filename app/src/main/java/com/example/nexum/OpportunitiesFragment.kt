@@ -100,7 +100,6 @@ class OpportunitiesFragment : Fragment() {
                 adapter = OpportunityItemAdapter(dataset)
                 opportunityRecyclerView.adapter=adapter
 
-                Toast.makeText(context,"${adapter.itemCount}", Toast.LENGTH_SHORT).show()
             }
 
             override fun onCancelled(databaseError: DatabaseError) {

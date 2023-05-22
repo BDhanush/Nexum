@@ -99,7 +99,6 @@ class SharedFragment : Fragment() {
                 adapter = SharedItemAdapter(dataset)
                 sharedRecyclerView.adapter=adapter
 
-                Toast.makeText(context,"${adapter.itemCount}", Toast.LENGTH_SHORT).show()
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
