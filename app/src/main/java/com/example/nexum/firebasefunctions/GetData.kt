@@ -1,11 +1,10 @@
 package com.example.nexum.firebasefunctions
 
 import android.content.ContentValues
+import android.location.Location
 import android.util.Log
-import com.example.nexum.model.Event
-import com.example.nexum.model.Opportunity
-import com.example.nexum.model.SharedFile
-import com.example.nexum.model.User
+import com.example.nexum.model.*
+import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -26,7 +25,13 @@ fun eventFromMap(map:Map<String,Any?>): Event
 {
     val event= Event(map["uid"] as String,map["title"] as String,map["description"] as String,map["venue"] as String,map["date"] as String,map["time"] as String)
     event.previewImage=map["previewImage"] as String?
+    event.key=map["key"] as String?
     return event
+}
+
+fun locationFromMap(map:Map<String,Any?>): LocationModel
+{
+    return LocationModel(LatLng( map["latitude"] as Double,map["longitude"] as Double))
 }
 
 fun userFromMap(map:Map<String,Any?>): User

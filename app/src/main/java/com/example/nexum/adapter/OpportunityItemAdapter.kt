@@ -13,6 +13,7 @@ import com.example.nexum.firebasefunctions.userFromMap
 import com.example.nexum.model.Opportunity
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.firebase.database.*
+import com.squareup.picasso.Picasso
 import java.sql.Date
 import java.text.SimpleDateFormat
 
@@ -50,7 +51,7 @@ class OpportunityItemAdapter(val dataset:MutableList<Opportunity>): RecyclerView
                 val user = userFromMap(userMap)
                 holder.username.text = user.firstName + " " + user.lastName
                 if(user.profilePicture!=null)
-                    holder.profilePicture.setImageURI(user.profilePicture!!.toUri())
+                    Picasso.get().load(user.profilePicture).into(holder.profilePicture)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {

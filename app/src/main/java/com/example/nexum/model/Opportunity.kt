@@ -6,6 +6,8 @@ import com.google.firebase.database.IgnoreExtraProperties
 @IgnoreExtraProperties
 
 data class Opportunity(val uid:String?=null,val title:String?=null,val description:String?=null,val link:String?=null,val datePosted:Long=System.currentTimeMillis()) {
+    var key:String?=null
+
     @Exclude
     fun toMap(): Map<String, Any?> {
         return mapOf(

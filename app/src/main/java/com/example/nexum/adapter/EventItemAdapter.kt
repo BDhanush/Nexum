@@ -87,7 +87,7 @@ class EventItemAdapter(val dataset:MutableList<Event>): RecyclerView.Adapter<Eve
                 val user = userFromMap(userMap)
                 holder.username.text = user.firstName + " " + user.lastName
                 if(user.profilePicture!=null)
-                    holder.profilePicture.setImageURI(user.profilePicture!!.toUri())
+                    Picasso.get().load(user.profilePicture).into(holder.profilePicture);
             }
 
             override fun onCancelled(databaseError: DatabaseError) {

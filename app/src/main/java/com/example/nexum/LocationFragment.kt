@@ -2,6 +2,7 @@ package com.example.nexum
 
 //import androidx.lifecycle.viewmodel.CreationExtras.Empty.map
 import android.Manifest
+import android.content.ContentValues
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Criteria
@@ -9,18 +10,28 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import com.example.nexum.adapter.EventItemAdapter
+import com.example.nexum.firebasefunctions.eventFromMap
+import com.example.nexum.firebasefunctions.locationFromMap
+import com.example.nexum.firebasefunctions.userFromMap
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.maps.android.heatmaps.HeatmapTileProvider
+import com.squareup.picasso.Picasso
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -66,66 +77,6 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
                 childFragmentManager.findFragmentById(R.id.mapFragment) as? SupportMapFragment
             mapFragment?.getMapAsync(this)
         }
-
-        private fun getCurrentLocation(googleMap: GoogleMap?) {
-            val locationManager =
-                activity?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-            val criteria = Criteria()
-            val provider = locationManager.getBestProvider(criteria, false)
-
-            if (provider != null) {
-                if (ActivityCompat.checkSelfPermission(
-                        requireContext(),
-                        Manifest.permission.ACCESS_FINE_LOCATION
-                    ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                        requireContext(),
-                        Manifest.permission.ACCESS_COARSE_LOCATION
-                    ) != PackageManager.PERMISSION_GRANTED
-                ) {
-                    return
-                }
-                locationManager.requestLocationUpdates(
-                    provider,
-                    1000,
-                    0F,
-                    object : LocationListener {
-                        override fun onLocationChanged(location: Location) {
-                            // Remove previous marker
-                            googleMap?.clear()
-
-                            // Add new marker to current location
-                            val currentLatLng = LatLng(location.latitude, location.longitude)
-                            googleMap?.addMarker(MarkerOptions().position(currentLatLng))
-
-                            // Center camera on current location
-                            // Create a CameraPosition object for the current location
-                            val cameraPosition = CameraPosition.Builder()
-                                .target(currentLatLng)
-                                .zoom(16F)
-                                .tilt(30F)
-                                .bearing(0F)
-                                .build()
-
-// Create a CameraUpdate object from the CameraPosition object
-                            val cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition)
-
-// Apply the CameraUpdate to the map
-                            googleMap?.animateCamera(cameraUpdate)
-
-
-                            // Stop listening for location updates
-                            locationManager.removeUpdates(this)
-                        }
-
-                        override fun onProviderDisabled(provider: String) {}
-                        override fun onProviderEnabled(provider: String) {}
-                        override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
-                    })
-            }
-        }
-
-
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -214,18 +165,34 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
         p0.setMinZoomPreference(p0.getCameraPosition().zoom)
     }
     private fun addHeatMap(googleMap: GoogleMap) {
-        var latLngs: List<LatLng> = listOf(LatLng(17.573360877719452, 78.4386573869753),LatLng(17.576182553320635, 78.43914773918324),LatLng(17.566954023457843, 78.43072619175284))
+        var latLngs: MutableList<LatLng> = mutableListOf()
 
-        if(latLngs.isEmpty())
-        {
-            return;
-        }
-        val provider = HeatmapTileProvider.Builder()
-            .data(latLngs)
-            .build()
+        var database = FirebaseDatabase.getInstance("https://nexum-c8155-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("location")
+        database.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for(snapshot in dataSnapshot.children) {
+                    val locationMap=snapshot.value as Map<String,Any?>
+                    val location= locationFromMap(locationMap)
+                    latLngs.add(location.latLong)
 
-        // Add a tile overlay to the map, using the heat map tile provider.
-        googleMap.addTileOverlay(TileOverlayOptions().tileProvider(provider))
+                }
+                if(latLngs.isEmpty())
+                {
+                    return;
+                }
+                val provider = HeatmapTileProvider.Builder()
+                    .data(latLngs)
+                    .build()
+                googleMap.addTileOverlay(TileOverlayOptions().tileProvider(provider))
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.w(ContentValues.TAG, "loadPost:onCancelled", databaseError.toException())
+            }
+        })
+
+
     }
 
 }

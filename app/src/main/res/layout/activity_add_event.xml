@@ -41,16 +41,31 @@
                 app:icon="@drawable/baseline_add_24"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
+        <RelativeLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+        <TextView
+            android:id="@+id/noPreview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/previewImage"
+            android:layout_alignTop="@+id/previewImage"
+            android:layout_alignRight="@+id/previewImage"
+            android:layout_alignBottom="@+id/previewImage"
+            android:layout_margin="1dp"
+            android:textSize="18dp"
+            android:gravity="center"
+            android:text="No Preview Image Selected" />
         <ImageView
             android:id="@+id/previewImage"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:scaleType="centerCrop"
-            android:background="@color/purple_200"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginBottom="8dp"
             />
+        </RelativeLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/eventNameLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"

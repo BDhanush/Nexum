@@ -17,6 +17,7 @@ import java.lang.System.out
 
 @IgnoreExtraProperties
 class User(val firstName:String?=null,val lastName:String?=null,val email:String?=null,var profilePicture:String?=null) {
+    var uid:String?=null
     init{
 
 

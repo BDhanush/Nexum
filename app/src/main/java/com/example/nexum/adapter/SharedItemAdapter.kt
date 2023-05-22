@@ -17,6 +17,7 @@ import com.example.nexum.firebasefunctions.userFromMap
 import com.example.nexum.model.SharedFile
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.firebase.database.*
+import com.squareup.picasso.Picasso
 import java.sql.Date
 import java.text.SimpleDateFormat
 
@@ -46,9 +47,9 @@ class SharedItemAdapter(val dataset:MutableList<SharedFile>): RecyclerView.Adapt
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item = dataset[position]
 
-        holder.fileName.text=item.title
+        holder.fileName.text=item.title!!.dropLastWhile { it!='.' }.dropLast(1)
         holder.datePosted.text= SimpleDateFormat("dd/MM/yy hh:mm a").format(Date(item.datePosted))
-        holder.extention.text=item.title!!.dropWhile { it!='.' }
+        holder.extention.text=item.title.dropWhile { it!='.' }
 
         var database = FirebaseDatabase.getInstance("https://nexum-c8155-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("users")
         database.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -58,7 +59,7 @@ class SharedItemAdapter(val dataset:MutableList<SharedFile>): RecyclerView.Adapt
                 val user = userFromMap(userMap)
                 holder.username.text = user.firstName + " " + user.lastName
                 if(user.profilePicture!=null)
-                    holder.profilePicture.setImageURI(user.profilePicture!!.toUri())
+                    Picasso.get().load(user.profilePicture).into(holder.profilePicture);
             }
 
             override fun onCancelled(databaseError: DatabaseError) {

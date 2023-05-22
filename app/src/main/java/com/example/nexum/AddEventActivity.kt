@@ -2,12 +2,18 @@ package com.example.nexum
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.blue
+import androidx.core.graphics.green
+import androidx.core.graphics.red
 import com.example.nexum.databinding.ActivityAddEventBinding
 import com.example.nexum.model.Event
 import com.google.android.material.datepicker.CalendarConstraints
@@ -19,6 +25,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import java.io.ByteArrayOutputStream
 import java.sql.Time
 import java.text.SimpleDateFormat
 import java.util.*
@@ -99,31 +106,46 @@ class AddEventActivity : AppCompatActivity() {
     {
         val database = FirebaseDatabase.getInstance("https://nexum-c8155-default-rtdb.asia-southeast1.firebasedatabase.app/").reference
         val key = database.child("events").push().key
-        if(selectedImageUri!=null)
-        {
-            val storageRef= Firebase.storage
+        val storageRef = Firebase.storage
 
-            val ref = storageRef.reference.child("images/$key/previewImage")
-            val uploadTask = ref.putFile(selectedImageUri!!)
+        val ref = storageRef.reference.child("images/$key/previewImage")
 
-            val urlTask = uploadTask.continueWithTask { task ->
-                if (!task.isSuccessful) {
-                    task.exception?.let {
-                        throw it
-                    }
-                }
-                ref.downloadUrl
-            }.addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val downloadUri = task.result
-                    event.previewImage=downloadUri.toString()
-                    database.child("events").child(key!!).setValue(event)
+        val uploadTask = if(selectedImageUri!=null) {
+            ref.putFile(selectedImageUri!!)
+        }else{
+            val baseColor = Color.WHITE
+            val red = (baseColor.red + (0..256).random()) / 2
+            val green = (baseColor.green + (0..256).random()) / 2
+            val blue = (baseColor.blue + (0..256).random()) / 2
+            val color = Color.rgb(red, green, blue)
+
+            val bmp: Bitmap = Bitmap.createBitmap(500, 500, Bitmap.Config.ARGB_8888);
+            val canvas = Canvas(bmp);
+            canvas.drawColor(color)
+
+            val baos = ByteArrayOutputStream()
+            bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+            val data = baos.toByteArray()
+
+            ref.putBytes(data)
+        }
+
+        val urlTask = uploadTask.continueWithTask { task ->
+            if (!task.isSuccessful) {
+                task.exception?.let {
+                    throw it
                 }
             }
-        }else{
-            database.child("events").child(key!!).setValue(event)
+            ref.downloadUrl
+        }.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val downloadUri = task.result
+                event.previewImage=downloadUri.toString()
+                database.child("events").child(key!!).setValue(event)
+                Toast.makeText(this,"Event added",Toast.LENGTH_SHORT).show()
+            }
         }
-        Toast.makeText(this,"Event added",Toast.LENGTH_SHORT).show()
+
 
     }
     private fun checkFields():Boolean
@@ -168,10 +190,14 @@ class AddEventActivity : AppCompatActivity() {
             if(selectedImageUri!=null)
             {
                 binding.addImage.text="Change Preview Image"
+                binding.addImage.icon= ContextCompat.getDrawable(this,R.drawable.baseline_check_24)
                 binding.previewImage.setImageURI(selectedImageUri)
+                binding.noPreview.visibility=View.GONE
             }else{
                 binding.addImage.text="Add Image"
                 binding.addImage.icon= ContextCompat.getDrawable(this,R.drawable.baseline_add_24)
+                binding.previewImage.setImageURI(null)
+                binding.noPreview.visibility=View.VISIBLE
             }
 
         }

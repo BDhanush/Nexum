@@ -1,19 +1,19 @@
 package com.example.nexum.model
 
+import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.database.Exclude
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.IgnoreExtraProperties
 import java.math.BigInteger
-import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
 @IgnoreExtraProperties
-data class Location(val latLong: Long) {
+data class LocationModel(val latLong: LatLng) {
 
     fun push(uid:String)
     {
         val key:String=getKey(uid)
-        val database = FirebaseDatabase.getInstance().reference
-        database.child("location").child(key).setValue(latLong)
+        val database = FirebaseDatabase.getInstance("https://nexum-c8155-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("location")
+        database.child(key).setValue(latLong)
     }
     private fun getKey(uid:String):String
     {

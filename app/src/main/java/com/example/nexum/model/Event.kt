@@ -8,6 +8,7 @@ data class Event(val uid:String?=null, val title:String?=null, val description:S
     val interested:MutableList<String> = mutableListOf()
     var previewImage:String?=null
     val images:MutableList<String?> = mutableListOf()
+    var key:String?=null
     init{
 
     }
