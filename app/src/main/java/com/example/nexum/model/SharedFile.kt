@@ -1,6 +1,21 @@
 package com.example.nexum.model
 
-class SharedFile(val uid:String?=null, val title:String?=null, val fileURL:String?=null) {
-    val datePosted:Long=System.currentTimeMillis()
+import com.google.firebase.database.Exclude
+import com.google.firebase.database.IgnoreExtraProperties
+
+@IgnoreExtraProperties
+
+data class SharedFile(val uid:String?=null, val title:String?=null, var fileURL:String?=null,val datePosted:Long=System.currentTimeMillis()) {
+    var key:String?=null
+
+    @Exclude
+    fun toMap(): Map<String, Any?> {
+        return mapOf(
+            "uid" to uid,
+            "title" to title,
+            "fileURL" to fileURL,
+            "datePosted" to datePosted
+        )
+    }
 
 }
