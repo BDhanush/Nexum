@@ -123,6 +123,7 @@ class OpportunitiesFragment : Fragment() {
                 for(snapshot in dataSnapshot.children) {
                     val opportunityMap=snapshot.value as Map<String,Any?>
                     val opportunity=oppoFromMap(opportunityMap)
+                    opportunity.key=snapshot.key as String
                     if(tabPosition==0 || opportunity.uid==auth.currentUser!!.uid) {
                         dataset.add(opportunity)
 

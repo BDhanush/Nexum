@@ -105,6 +105,7 @@ class EventFragment : Fragment() {
                 for(snapshot in dataSnapshot.children) {
                     val eventMap=snapshot.value as Map<String,Any?>
                     val event=eventFromMap(eventMap)
+                    event.key=snapshot.key as String
                     if(tabPosition==0 || event.uid==auth.currentUser!!.uid) {
                         dataset.add(event)
                     }

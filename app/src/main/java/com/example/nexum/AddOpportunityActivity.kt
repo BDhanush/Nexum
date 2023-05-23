@@ -63,10 +63,20 @@ class AddOpportunityActivity : AppCompatActivity() {
         if (binding.linkInput.text.toString().isEmpty()) {
             binding.linkInput.error = "This field is required"
             check = false
+        }else if(!isLink(binding.linkInput.text.toString()))
+        {
+            binding.linkInput.error = "Enter valid link"
+            check = false
         }
         // after all validation return true.
         return check
 
+    }
+
+    fun isLink(link:String):Boolean
+    {
+        val pattern = Regex("https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)")
+        return pattern.containsMatchIn(link)
     }
 
 }

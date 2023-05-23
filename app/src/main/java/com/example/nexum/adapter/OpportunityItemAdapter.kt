@@ -6,11 +6,14 @@ import android.net.Uri
 import android.util.Log
 import android.view.*
 import android.widget.*
-import androidx.core.net.toUri
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.example.nexum.OpportunityDetailsActivity
 import com.example.nexum.R
+import com.example.nexum.firebasefunctions.oppoFromMap
 import com.example.nexum.firebasefunctions.userFromMap
 import com.example.nexum.model.Opportunity
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
@@ -27,7 +30,7 @@ class OpportunityItemAdapter(val dataset:MutableList<Opportunity>): RecyclerView
         val title:TextView=view.findViewById(R.id.title)
         val datePosted:TextView=view.findViewById(R.id.datePosted)
         val description:TextView=view.findViewById(R.id.description)
-
+        val oppoCard:MaterialCardView=view.findViewById(R.id.oppoCard)
         init{
 
         }
@@ -66,6 +69,12 @@ class OpportunityItemAdapter(val dataset:MutableList<Opportunity>): RecyclerView
         holder.applyButton.setOnClickListener {
             val browse = Intent(Intent.ACTION_VIEW, Uri.parse(item.link))
             holder.itemView.context.startActivity(browse)
+        }
+        holder.oppoCard.setOnClickListener{
+            val keyOpportunity = item.key
+            val intent = Intent(holder.itemView.context, OpportunityDetailsActivity::class.java)
+            intent.putExtra("key", keyOpportunity)
+            holder.itemView.context.startActivity(intent)
         }
 
     }

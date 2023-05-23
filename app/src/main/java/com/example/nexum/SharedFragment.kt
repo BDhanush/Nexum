@@ -118,6 +118,7 @@ class SharedFragment : Fragment() {
                 for(snapshot in dataSnapshot.children) {
                     val fileMap=snapshot.value as Map<String,Any?>
                     val file= fileFromMap(fileMap)
+                    file.key=snapshot.key as String
                     if(tabPosition==0 || file.uid==auth.currentUser!!.uid) {
                         dataset.add(file)
                     }
