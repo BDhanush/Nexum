@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_margin="10dp"
-    app:cardCornerRadius="16dp">
+    app:cardCornerRadius="16dp"
+    android:clickable="true">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,6 +41,20 @@
                 app:layout_constraintTop_toTopOf="@+id/profilePicture"
                 android:layout_margin="8dp"
                 />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/deleteButton"
+                style="@style/Widget.MaterialComponents.Button.Icon"
+                android:layout_width="32dp"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/baseline_delete_24"
+                android:paddingStart="7dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="4dp"
+                android:paddingBottom="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/username"
+                />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
         <ImageView
@@ -129,5 +146,4 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
-
-</androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>

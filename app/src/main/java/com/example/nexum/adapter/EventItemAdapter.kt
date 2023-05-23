@@ -43,13 +43,7 @@ class EventItemAdapter(val dataset:MutableList<Event>): RecyclerView.Adapter<Eve
         val date:TextView=view.findViewById(R.id.date)
         val location:TextView=view.findViewById(R.id.location)
         val time:TextView=view.findViewById(R.id.time)
-
-
-
-
-
-
-
+        val cardView: CardView = view.findViewById(R.id.cardView)
 
 
 
@@ -148,6 +142,18 @@ class EventItemAdapter(val dataset:MutableList<Event>): RecyclerView.Adapter<Eve
             createNotificationChannel()
             scheduleNotification(item.title!!,item.date!!,item.time!!)
         }
+                holder.cardView.setOnClickListener {
+            val event = dataset[holder.adapterPosition]
+            val context = holder.cardView.context
+
+            val intent = Intent(context, EventDetailsActivity::class.java)
+            // Pass any necessary data to the EventDetailsActivity using extras
+            //intent.putExtra("eventId", event.uid)
+
+            context.startActivity(intent)
+
+        }
+
     }
 
 
