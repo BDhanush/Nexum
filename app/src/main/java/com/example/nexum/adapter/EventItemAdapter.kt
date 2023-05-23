@@ -12,6 +12,7 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
@@ -19,6 +20,7 @@ import com.example.nexum.*
 import com.example.nexum.Notification
 import com.example.nexum.firebasefunctions.userFromMap
 import com.example.nexum.model.Event
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -38,7 +40,7 @@ class EventItemAdapter(val dataset:MutableList<Event>): RecyclerView.Adapter<Eve
         val title:TextView=view.findViewById(R.id.title)
         val username:TextView=view.findViewById(R.id.username)
         val profilePicture:ShapeableImageView=view.findViewById(R.id.profilePicture)
-        val interestButton:Button=view.findViewById(R.id.interestButton)
+        val interestButton:MaterialButton=view.findViewById(R.id.interestButton)
         val description:TextView=view.findViewById(R.id.description)
         val date:TextView=view.findViewById(R.id.date)
         val location:TextView=view.findViewById(R.id.location)
@@ -95,7 +97,28 @@ class EventItemAdapter(val dataset:MutableList<Event>): RecyclerView.Adapter<Eve
                 Log.w(ContentValues.TAG, "loadPost:onCancelled", databaseError.toException())
             }
         })
+        val alarmManager = holder.itemView.context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val epochString = item.date+" "+item.time
+        val dtf: DateTimeFormatter = DateTimeFormatter.ofPattern("MMM d, yyyy h:mm a").withZone(
+            ZoneId.of(ZoneId.systemDefault().id))
+        val zdt: ZonedDateTime = ZonedDateTime.parse(epochString,dtf)
+        var epoch:Long = zdt.toInstant().toEpochMilli()
+
+        if(!isExpired(holder.interestButton,epoch)){
+            getInterest(holder.interestButton,item)
+        }
+
         holder.interestButton.setOnClickListener {
+            if(holder.interestButton.text=="interested")
+            {
+                holder.interestButton.text = "interest"
+                holder.interestButton.icon = ContextCompat.getDrawable(holder.itemView.context,R.drawable.baseline_add_24)
+                cancelNotification(alarmManager,"${item.title} at ${item.time}",holder.itemView)
+                return@setOnClickListener
+            }
+
+            holder.interestButton.text = "interested"
+            holder.interestButton.icon = ContextCompat.getDrawable(holder.itemView.context,R.drawable.baseline_check_24)
             fun showAlert(time: Long, title: String, message: String)
             {
                 Toast.makeText(holder.itemView.context,"Event Reminder set",Toast.LENGTH_SHORT).show()
@@ -115,17 +138,8 @@ class EventItemAdapter(val dataset:MutableList<Event>): RecyclerView.Adapter<Eve
                     PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
                 )
 
-                val alarmManager = holder.itemView.context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-                val epochString = date+" "+time
-                val dtf: DateTimeFormatter = DateTimeFormatter.ofPattern("MMM d, yyyy h:mm a").withZone(
-                    ZoneId.of(ZoneId.systemDefault().id))
-                val zdt: ZonedDateTime = ZonedDateTime.parse(epochString,dtf)
-                val epoch:Long = zdt.toInstant().toEpochMilli()-3600000
+                epoch-=3600000
 
-                if(epoch<System.currentTimeMillis())
-                {
-                    return
-                }
                 alarmManager.setExactAndAllowWhileIdle(
                     AlarmManager.RTC_WAKEUP,
                     epoch,
@@ -154,4 +168,45 @@ class EventItemAdapter(val dataset:MutableList<Event>): RecyclerView.Adapter<Eve
     /**
      * Return the size of your dataset (invoked by the layout manager)
      */ override fun getItemCount() = dataset.size
+}
+
+fun isExpired(interestButton:MaterialButton,epoch:Long):Boolean{
+    return if(epoch<System.currentTimeMillis())
+    {
+        interestButton.text = "expired"
+        interestButton.icon = ContextCompat.getDrawable(interestButton.context,R.drawable.outline_timer_24)
+        interestButton.isEnabled=false
+        true
+    }else{
+        interestButton.isEnabled=true
+        false
+    }
+}
+
+fun getInterest(interestButton:MaterialButton,event:Event) {
+    val message = "${event.title} at ${event.time}"
+    if(mapNotificationID.containsKey(message))
+    {
+        interestButton.text = "interested"
+        interestButton.icon = ContextCompat.getDrawable(interestButton.context,R.drawable.baseline_check_24)
+    }else{
+        interestButton.text = "interest"
+        interestButton.icon = ContextCompat.getDrawable(interestButton.context,R.drawable.baseline_add_24)
+    }
+}
+
+fun cancelNotification(alarmManager: AlarmManager,message:String,view: View)
+{
+    val intent = Intent(view.context.applicationContext, Notification::class.java)
+    val pendingIntent = PendingIntent.getBroadcast(
+        view.context.applicationContext,
+        getNotificationID(message),
+        intent,
+        PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_CANCEL_CURRENT
+    )
+    set.add(mapNotificationID[message]!!)
+    mapNotificationID.remove(message)
+    alarmManager.cancel(pendingIntent)
+    Toast.makeText(view.context,"Event Reminder removed",Toast.LENGTH_SHORT).show()
+
 }

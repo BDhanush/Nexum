@@ -6,15 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.viewpager2.widget.ViewPager2
+import com.example.nexum.EventFragment.Companion.newEventInstance
+import com.example.nexum.OpportunitiesFragment.Companion.newOppoInstance
+import com.example.nexum.SharedFragment.Companion.newSharedInstance
 import com.example.nexum.adapter.ProfileTabAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 class TabsFragment() : Fragment() {
 
-    private val events = mutableListOf<Fragment>(EventFragment(),EventFragment())
-    private val opportunities=mutableListOf<Fragment>(OpportunitiesFragment(),OpportunitiesFragment())
-    private val shared=mutableListOf<Fragment>(SharedFragment(),SharedFragment())
+    private val events = mutableListOf<Fragment>(newEventInstance<EventFragment>("0"),newEventInstance<EventFragment>("1"))
+    private val opportunities=mutableListOf<Fragment>(newOppoInstance<OpportunitiesFragment>("0"), newOppoInstance<OpportunitiesFragment>("1"))
+    private val shared=mutableListOf<Fragment>(newSharedInstance<SharedFragment>("0"),newSharedInstance<SharedFragment>("1"))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

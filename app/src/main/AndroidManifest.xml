@@ -21,7 +21,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Nexum"
         tools:targetApi="33" >
-        <service android:name=".LocationService" android:foregroundServiceType="location"/>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${GOOGLE_MAPS_API_KEY}" />
@@ -82,7 +82,10 @@
         <receiver
             android:name=".Notification"
             android:enabled="true"
-            android:exported="false" >
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
         </receiver>
         
     </application>

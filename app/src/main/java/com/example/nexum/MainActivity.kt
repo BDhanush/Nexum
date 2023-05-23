@@ -2,6 +2,7 @@ package com.example.nexum
 
 import android.Manifest
 import android.app.*
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -9,30 +10,25 @@ import android.location.Criteria
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
-import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import com.example.nexum.databinding.ActivityMainBinding
 import com.example.nexum.model.LocationModel
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
+import java.io.*
 import java.util.*
+
+
+
 
 class MainActivity : AppCompatActivity() {
     private val tabsFragment = listOf<Fragment>(TabsFragment(),TabsFragment(),TabsFragment(),LocationFragment())
@@ -47,6 +43,11 @@ class MainActivity : AppCompatActivity() {
             tabsFragment[i].arguments = bundle[i]
         }
         activeFragment=tabsFragment[0]
+//
+//        val sp = getPreferences(MODE_PRIVATE)
+//        val gson = Gson()
+//        val j = sp.getString("MapNotificationID", null)
+//        mapNotificationID = gson.fromJson(j,MutableMap<String, Int>)
 
     }
     private lateinit var binding: ActivityMainBinding
@@ -54,6 +55,35 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
+
+//        mapNotificationID = try {
+//            val file = File(getDir("data", MODE_PRIVATE), "mapNotificationID")
+//            val fos = ObjectInputStream(FileInputStream(file))
+////            val fos: FileInputStream = baseContext.openFileInput("mapNotificationID")
+//            val os = ObjectInputStream(fos)
+//            val map: MutableMap<String, Int> = os.readObject() as MutableMap<String, Int>
+//            os.close()
+//            fos.close()
+//            map
+//        } catch (e: Exception) {
+//            mutableMapOf()
+//        }
+//        Log.w(ContentValues.TAG, "${
+//            mapNotificationID.size}")
+//        set = try {
+//            val file = File(getDir("data", MODE_PRIVATE), "setFreeIndex")
+//            val fos = ObjectInputStream(FileInputStream(file))
+////            val fos: FileInputStream = baseContext.openFileInput("mapNotificationID")
+//            val os = ObjectInputStream(fos)
+//            val r: MutableSet<Int> = os.readObject() as MutableSet<Int>
+//            os.close()
+//            fos.close()
+//            r
+//        } catch (e: Exception) {
+//            mutableSetOf(1)
+//        }
+//        Log.w(ContentValues.TAG, "${
+//            set.size}")
         getCurrentLocation()
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
@@ -78,6 +108,10 @@ class MainActivity : AppCompatActivity() {
             selectedItem=it.itemId
 
             add.visibility= VISIBLE
+            if(!add.isShown)
+            {
+                add.show()
+            }
             when (it.itemId) {
                 R.id.event -> {
                     loadFragment(tabsFragment[0])
@@ -169,4 +203,19 @@ class MainActivity : AppCompatActivity() {
                 })
         }
     }
+
+//    override fun onPause() {
+//        super.onPause()
+//        val file = File(getDir("data", MODE_PRIVATE), "mapNotificationID")
+//        val outputStream = ObjectOutputStream(FileOutputStream(file))
+//        outputStream.writeObject(mapNotificationID)
+//        outputStream.flush()
+//        outputStream.close()
+//
+//        val fileSet = File(getDir("data", MODE_PRIVATE), "setFreeIndex")
+//        val outputStreamSet = ObjectOutputStream(FileOutputStream(fileSet))
+//        outputStreamSet.writeObject(set)
+//        outputStreamSet.flush()
+//        outputStreamSet.close()
+//    }
 }

@@ -6,7 +6,10 @@
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_margin="10dp"
-    app:cardCornerRadius="16dp">
+    app:cardCornerRadius="16dp"
+    android:clickable="true"
+    android:focusable="true"
+    >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -115,7 +118,7 @@
                 app:layout_constraintStart_toStartOf="@+id/date"
                 app:layout_constraintTop_toBottomOf="@id/date" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/interestButton"
                 style="@style/Widget.Material3.Button.ElevatedButton.Icon"
                 android:layout_width="wrap_content"

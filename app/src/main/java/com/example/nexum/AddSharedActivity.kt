@@ -45,7 +45,6 @@ class AddSharedActivity : AppCompatActivity() {
                     null
                 )
                 uploadFile(sharedFile)
-                finish()
             }
 
         }
@@ -74,12 +73,12 @@ class AddSharedActivity : AppCompatActivity() {
                     val downloadUri = task.result
                     sharedFile.fileURL=downloadUri.toString()
                     database.child("files").child(key!!).setValue(sharedFile)
+                    Toast.makeText(this,"File added", Toast.LENGTH_SHORT).show()
+                    finish()
                 }
             }
-        }else{
-            database.child("files").child(key!!).setValue(sharedFile)
         }
-        Toast.makeText(this,"File added", Toast.LENGTH_SHORT).show()
+
 
     }
     private fun checkFields():Boolean

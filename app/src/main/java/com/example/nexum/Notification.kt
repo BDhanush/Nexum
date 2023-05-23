@@ -6,8 +6,8 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 
-val mapNotificationID= mutableMapOf<String,Int>()
-val set= mutableSetOf<Int>(1)
+val mapNotificationID:MutableMap<String,Int> = mutableMapOf()
+val set:MutableSet<Int> = mutableSetOf(1)
 const val channelID = "channel1"
 const val titleExtra = "titleExtra"
 const val messageExtra = "messageExtra"

@@ -13,10 +13,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.nexum.adapter.SharedItemAdapter
 import com.example.nexum.firebasefunctions.fileFromMap
 import com.example.nexum.model.SharedFile
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.ktx.Firebase
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -36,14 +39,13 @@ class SharedFragment : Fragment() {
 
     // TODO: Rename and change types of parameters
     private var param1: String? = null
-    private var param2: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
         }
+        readShared(param1!!.toInt())
     }
 
     override fun onCreateView(
@@ -60,7 +62,6 @@ class SharedFragment : Fragment() {
         sharedRecyclerView=view.findViewById(R.id.sharedRecyclerView)
         val linearLayoutManager= LinearLayoutManager(this.context)
         sharedRecyclerView.layoutManager=linearLayoutManager
-        readShared()
 
 
     }
@@ -76,17 +77,17 @@ class SharedFragment : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun <T> newSharedInstance(param1: String) =
             SharedFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
                 }
             }
     }
-    private fun readShared()
+    private fun readShared(tabPosition:Int)
     {
         var database = FirebaseDatabase.getInstance("https://nexum-c8155-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("files")
+        val auth= Firebase.auth
         database.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 dataset.clear()
@@ -94,10 +95,37 @@ class SharedFragment : Fragment() {
                 for(snapshot in dataSnapshot.children) {
                     val fileMap=snapshot.value as Map<String,Any?>
                     val file= fileFromMap(fileMap)
-                    dataset.add(file)
+                    if(tabPosition==0 || file.uid==auth.currentUser!!.uid) {
+                        dataset.add(file)
+                    }
                 }
                 adapter = SharedItemAdapter(dataset)
                 sharedRecyclerView.adapter=adapter
+
+                val addButton: FloatingActionButton =requireActivity().findViewById(R.id.addButton)
+                sharedRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                        super.onScrolled(recyclerView, dx, dy)
+
+                        // if the recycler view is scrolled
+                        // above hide the addButton
+                        if (dy > 10 && addButton.isShown) {
+                            addButton.hide()
+                        }
+
+                        // if the recycler view is
+                        // scrolled above show the addButton
+                        if (dy < -10 && !addButton.isShown) {
+                            addButton.show()
+                        }
+
+                        // of the recycler view is at the first
+                        // item always show the addButton
+                        if (!recyclerView.canScrollVertically(-1)) {
+                            addButton.show()
+                        }
+                    }
+                })
 
             }
 

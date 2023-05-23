@@ -97,13 +97,13 @@ class AddEventActivity : AppCompatActivity() {
             )
             if(checkFields()) {
                 uploadEvent(event)
-                finish()
             }
         }
 
     }
     private fun uploadEvent(event:Event)
     {
+        Toast.makeText(this,"Adding Event",Toast.LENGTH_SHORT).show()
         val database = FirebaseDatabase.getInstance("https://nexum-c8155-default-rtdb.asia-southeast1.firebasedatabase.app/").reference
         val key = database.child("events").push().key
         val storageRef = Firebase.storage
@@ -143,6 +143,7 @@ class AddEventActivity : AppCompatActivity() {
                 event.previewImage=downloadUri.toString()
                 database.child("events").child(key!!).setValue(event)
                 Toast.makeText(this,"Event added",Toast.LENGTH_SHORT).show()
+                finish()
             }
         }
 
