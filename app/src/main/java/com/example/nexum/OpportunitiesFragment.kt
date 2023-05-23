@@ -68,7 +68,30 @@ class OpportunitiesFragment : Fragment() {
         opportunityRecyclerView=view.findViewById(R.id.opportunitiesRecyclerView)
         val linearLayoutManager= LinearLayoutManager(this.context)
         opportunityRecyclerView.layoutManager=linearLayoutManager
+        val addButton: FloatingActionButton =requireActivity().findViewById(R.id.addButton)
+        opportunityRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
 
+                // if the recycler view is scrolled
+                // above hide the addButton
+                if (dy > 10 && addButton.isShown) {
+                    addButton.hide()
+                }
+
+                // if the recycler view is
+                // scrolled above show the addButton
+                if (dy < -10 && !addButton.isShown) {
+                    addButton.show()
+                }
+
+                // of the recycler view is at the first
+                // item always show the addButton
+                if (!recyclerView.canScrollVertically(-1)) {
+                    addButton.show()
+                }
+            }
+        })
 
     }
     companion object {
@@ -107,31 +130,6 @@ class OpportunitiesFragment : Fragment() {
                 }
                 adapter = OpportunityItemAdapter(dataset)
                 opportunityRecyclerView.adapter=adapter
-
-                val addButton: FloatingActionButton =requireActivity().findViewById(R.id.addButton)
-                opportunityRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                        super.onScrolled(recyclerView, dx, dy)
-
-                        // if the recycler view is scrolled
-                        // above hide the addButton
-                        if (dy > 10 && addButton.isShown) {
-                            addButton.hide()
-                        }
-
-                        // if the recycler view is
-                        // scrolled above show the addButton
-                        if (dy < -10 && !addButton.isShown) {
-                            addButton.show()
-                        }
-
-                        // of the recycler view is at the first
-                        // item always show the addButton
-                        if (!recyclerView.canScrollVertically(-1)) {
-                            addButton.show()
-                        }
-                    }
-                })
 
             }
 

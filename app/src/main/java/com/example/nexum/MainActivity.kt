@@ -14,6 +14,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
@@ -31,7 +32,7 @@ import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
-    private val tabsFragment = listOf<Fragment>(TabsFragment(),TabsFragment(),TabsFragment(),LocationFragment())
+    private val tabsFragment = mutableListOf<Fragment>(TabsFragment(),TabsFragment(),TabsFragment(),LocationFragment())
     private var activeFragment=tabsFragment[0]
     init {
         val bundle = listOf(Bundle(),Bundle(),Bundle())
@@ -103,15 +104,10 @@ class MainActivity : AppCompatActivity() {
 
         var selectedItem=R.id.event
 
-        val add: FloatingActionButton = view.findViewById(R.id.addButton)
         navbar.setOnItemSelectedListener {
             selectedItem=it.itemId
 
-            add.visibility= VISIBLE
-            if(!add.isShown)
-            {
-                add.show()
-            }
+            binding.addButton.visibility= VISIBLE
             when (it.itemId) {
                 R.id.event -> {
                     loadFragment(tabsFragment[0])
@@ -126,17 +122,21 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.location -> {
-                    add.visibility= INVISIBLE
-                    loadFragment(tabsFragment[3])
+                    binding.addButton.visibility= INVISIBLE
+//                    tabsFragment[3]=LocationFragment()
+//                    supportFragmentManager.beginTransaction().apply {
+//                        add(R.id.fragment, tabsFragment[3]).hide(tabsFragment[3])
+//                    }.commit()
+                    loadLocation(tabsFragment[3] as LocationFragment)
                     true
                 }
                 else -> {
-                    add.visibility= INVISIBLE
+                    binding.addButton.visibility= INVISIBLE
                     false
                 }
             }
         }
-        add.setOnClickListener {
+        binding.addButton.setOnClickListener {
             when(selectedItem){
                 R.id.event->{
                     Intent(this,AddEventActivity::class.java).also {
@@ -161,11 +161,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-
+    private fun loadLocation(fragment: LocationFragment)
+    {
+        fragment.refreshMap()
+        loadFragment(fragment)
+    }
     private fun loadFragment(fragment: Fragment){
         supportFragmentManager.beginTransaction().hide(activeFragment).show(fragment).commit()
         activeFragment = fragment
+//        supportFragmentManager.beginTransaction().replace(R.id.fragment,fragment).commit()
+
     }
 
     private fun getCurrentLocation() {

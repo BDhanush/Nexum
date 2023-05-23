@@ -21,6 +21,7 @@ import com.example.nexum.adapter.EventItemAdapter
 import com.example.nexum.firebasefunctions.eventFromMap
 import com.example.nexum.firebasefunctions.locationFromMap
 import com.example.nexum.firebasefunctions.userFromMap
+import com.example.nexum.model.heatmapData
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -48,7 +49,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
     // TODO: Rename and change types of parameters
 
 
-
+        lateinit var googleMap: GoogleMap
     // Request code for location permission
         private val LOCATION_PERMISSION_REQUEST_CODE = 1
 
@@ -121,7 +122,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
     }
 
     override fun onMapReady(p0: GoogleMap) {
-
+        googleMap=p0
         p0.mapType = GoogleMap.MAP_TYPE_HYBRID;
         val northeast = LatLng(17.576182553320635, 78.43914773918324) // Upper right corner
         val southwest = LatLng(17.566954023457843, 78.43072619175284) // Lowerleftcorner
@@ -193,6 +194,10 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
         })
 
 
+    }
+    fun refreshMap()
+    {
+        addHeatMap(googleMap)
     }
 
 }
