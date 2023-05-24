@@ -4,6 +4,7 @@ package com.example.nexum
 import android.os.Bundle
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import com.bumptech.glide.Glide
 
 
@@ -21,7 +22,7 @@ class DisplayImageActivity : AppCompatActivity() {
 
         if (!imageUrl.isNullOrEmpty()) {
             Glide.with(this)
-                .load(imageUrl)
+                .load(imageUrl.toUri())
                 .into(imageView)
         }
     }

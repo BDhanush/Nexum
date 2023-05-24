@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:scrollbars="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageName"
+            android:layout_margin="8dp"
+            android:layout_gravity="left"
+            android:visibility="invisible"/>
+
+        <Button
+            android:layout_margin="8dp"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/seeImage"
+            style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+            app:icon="@drawable/outline_remove_red_eye_24"
+            android:text="View Image"
+            android:visibility="invisible"/>
+        <Button
+            android:layout_margin="8dp"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/selectImage"
+            style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+            app:icon="@drawable/baseline_add_24"
+            android:text="Select Image"/>
+        <Button
+            android:layout_margin="8dp"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/submit"
+            android:text="Add to Shared"/>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

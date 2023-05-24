@@ -18,6 +18,11 @@ fun fileFromMap(map:Map<String,Any?>): SharedFile
     return SharedFile(map["uid"] as String,map["title"] as String,map["fileURL"] as String,map["datePosted"] as Long)
 }
 
+fun imageFromMap(map:Map<String,Any?>): SharedImage
+{
+    return SharedImage(map["uid"] as String,map["imageURL"] as String,map["datePosted"] as Long)
+}
+
 fun oppoFromMap(map:Map<String,Any?>): Opportunity
 {
     return Opportunity(map["uid"] as String,map["title"] as String,map["description"] as String,map["link"] as String,map["datePosted"] as Long)
