@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_margin="10dp"
     app:cardCornerRadius="16dp">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="8dp"
+            android:paddingLeft="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="16dp"
+            android:paddingRight="8dp"
             >
 
             <com.google.android.material.imageview.ShapeableImageView
@@ -37,6 +37,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/profilePicture"
                 app:layout_constraintStart_toEndOf="@+id/profilePicture"
                 app:layout_constraintTop_toTopOf="@+id/profilePicture"
+                android:maxLines="1"
                 android:layout_margin="8dp"
                 />
 
@@ -44,16 +45,13 @@
                 android:id="@+id/datePosted"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="7dp"
                 android:text="22/2/2022"
                 android:textAppearance="?attr/textAppearanceBodyMedium"
 
                 android:textColor="?android:attr/textColorSecondary"
                 android:textSize="10dp"
-                app:layout_constraintBottom_toTopOf="@+id/title"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/profilePicture" />
+                app:layout_constraintTop_toBottomOf="@+id/downloadButton" />
 
             <Button
                 android:id="@+id/downloadButton"
@@ -63,17 +61,18 @@
                 android:text="Download"
                 app:icon="@drawable/baseline_download_24"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/profilePicture" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <!-- Title, secondary and supporting text -->
             <TextView
                 android:id="@+id/fileName"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:textAppearance="?attr/textAppearanceTitleMedium"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/downloadButton"
+                app:layout_constraintTop_toBottomOf="@id/datePosted"
+                android:maxLines="1"
                 tools:text="file.txt" />
 
             <TextView
@@ -84,7 +83,9 @@
                 android:textAppearance="?attr/textAppearanceBodyMedium"
                 android:textColor="?android:attr/textColorSecondary"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/fileName" />
+                app:layout_constraintTop_toBottomOf="@id/fileName"
+                android:maxLines="1"
+                />
 
 <!--            <androidx.appcompat.widget.AppCompatRatingBar-->
 <!--                android:layout_width="wrap_content"-->
@@ -97,6 +98,6 @@
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+
+</com.google.android.material.card.MaterialCardView>

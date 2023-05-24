@@ -26,6 +26,7 @@ fun eventFromMap(map:Map<String,Any?>): Event
     val event= Event(map["uid"] as String,map["title"] as String,map["description"] as String,map["venue"] as String,map["date"] as String,map["time"] as String)
     event.previewImage=map["previewImage"] as String?
     event.key=map["key"] as String?
+    event.setEpoch()
     return event
 }
 

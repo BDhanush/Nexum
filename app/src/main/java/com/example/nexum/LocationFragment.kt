@@ -49,35 +49,37 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
     // TODO: Rename and change types of parameters
 
 
-        lateinit var googleMap: GoogleMap
+    lateinit var googleMap: GoogleMap
+    var heatMap: TileOverlay?=null
+
     // Request code for location permission
         private val LOCATION_PERMISSION_REQUEST_CODE = 1
 
-        override fun onCreate(savedInstanceState: Bundle?) {
-            super.onCreate(savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-            // Request location permission
-            if (ActivityCompat.checkSelfPermission(
-                    requireContext(),
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                ActivityCompat.requestPermissions(
-                    requireActivity(),
-                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                    LOCATION_PERMISSION_REQUEST_CODE
-                )
-            }
-
+        // Request location permission
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                LOCATION_PERMISSION_REQUEST_CODE
+            )
         }
 
-        override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-            super.onViewCreated(view, savedInstanceState)
+    }
 
-            val mapFragment =
-                childFragmentManager.findFragmentById(R.id.mapFragment) as? SupportMapFragment
-            mapFragment?.getMapAsync(this)
-        }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val mapFragment =
+            childFragmentManager.findFragmentById(R.id.mapFragment) as? SupportMapFragment
+        mapFragment?.getMapAsync(this)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -184,7 +186,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
                 val provider = HeatmapTileProvider.Builder()
                     .data(latLngs)
                     .build()
-                googleMap.addTileOverlay(TileOverlayOptions().tileProvider(provider))
+                heatMap = googleMap.addTileOverlay(TileOverlayOptions().tileProvider(provider))
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -197,6 +199,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
     }
     fun refreshMap()
     {
+        heatMap?.remove()
         addHeatMap(googleMap)
     }
 

@@ -2,6 +2,7 @@ package com.example.nexum
 
 import android.content.ContentValues.TAG
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -31,6 +33,11 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import org.checkerframework.checker.units.qual.s
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import kotlin.math.max
+import kotlin.math.min
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -43,7 +50,7 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class EventFragment : Fragment() {
-    val dataset= mutableListOf<Event>()
+    var dataset= mutableListOf<Event>()
     lateinit var adapter:EventItemAdapter
     lateinit var eventRecyclerView:RecyclerView
 
@@ -110,6 +117,7 @@ class EventFragment : Fragment() {
                         dataset.add(event)
                     }
                 }
+                sortExpired(dataset)
                 adapter = EventItemAdapter(dataset)
                 eventRecyclerView.adapter=adapter
 
@@ -147,6 +155,33 @@ class EventFragment : Fragment() {
                     putString(ARG_PARAM1, param1)
                 }
             }
+    }
+
+    fun sortExpired(list:MutableList<Event>)
+    {
+        list.sortWith <Event> (object : Comparator <Event> {
+            override fun compare (p0: Event, p1: Event) : Int {
+                val epoch0=p0.epoch!!
+                val epoch1=p1.epoch!!
+                val epochCur=System.currentTimeMillis()
+
+                if (max(epoch0,epoch1)<epochCur || min(epoch0,epoch1)>epochCur) {
+
+                    return (if (max(epoch0,epoch1)<epochCur) -1 else 1) * if(epoch0>epoch1)
+                        1
+                    else if(epoch0<epoch1)
+                        -1
+                    else
+                        0
+                }else if (epoch0<epoch1) {
+                    return 1
+                }else if(epoch1==epoch0){
+                    return 0
+                }
+                return -1
+            }
+        })
+
     }
 
 }
