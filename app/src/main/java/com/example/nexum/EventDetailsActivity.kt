@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.NestedScrollView
 import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.RecyclerView
+import com.example.nexum.adapter.EventItemAdapter
 import com.example.nexum.firebasefunctions.eventFromMap
 import com.example.nexum.model.Event
 import com.google.android.material.color.utilities.MaterialDynamicColors.onError
@@ -29,17 +30,25 @@ import com.squareup.picasso.Picasso
 import java.lang.Exception
 import com.example.nexum.adapter.GridViewAdapter
 import com.example.nexum.databinding.EventDetailsBinding
+import com.example.nexum.firebasefunctions.imageFromMap
+import com.example.nexum.model.SharedImage
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class EventDetailsActivity : AppCompatActivity() {
 
     private lateinit var binding: EventDetailsBinding
+    var dataset:MutableList<SharedImage> = mutableListOf()
+    lateinit var adapter:GridViewAdapter
+    var key:String?=null
     override fun onCreate(savedInstanceState: Bundle?) {
-
+        key=intent.getStringExtra("key")
+        readImages()
         super.onCreate(savedInstanceState)
         binding = EventDetailsBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-        val key=intent.getStringExtra("key")
+
         var event: Event?=null
         var database = FirebaseDatabase.getInstance("https://nexum-c8155-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("events")
         database.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -59,36 +68,36 @@ class EventDetailsActivity : AppCompatActivity() {
             }
         })
 
-            binding.nestedScrollView.setOnScrollChangeListener(object : NestedScrollView.OnScrollChangeListener {
-                override fun onScrollChange(
-                    v: NestedScrollView,
-                    scrollX: Int,
-                    scrollY: Int,
-                    oldScrollX: Int,
-                    oldScrollY: Int
-                ) {
-                    val dy=scrollY-oldScrollY
-                    val dx=scrollX-oldScrollX
+        binding.nestedScrollView.setOnScrollChangeListener(object : NestedScrollView.OnScrollChangeListener {
+            override fun onScrollChange(
+                v: NestedScrollView,
+                scrollX: Int,
+                scrollY: Int,
+                oldScrollX: Int,
+                oldScrollY: Int
+            ) {
+                val dy=scrollY-oldScrollY
+                val dx=scrollX-oldScrollX
 
-                    // if the recycler view is scrolled
-                    // above hide the addButton
-                    if (dy > 10 && binding.addButton.isShown) {
-                        binding.addButton.hide()
-                    }
-
-                    // if the recycler view is
-                    // scrolled above show the addButton
-                    if (dy < -10 && !binding.addButton.isShown) {
-                        binding.addButton.show()
-                    }
-
-                    // of the recycler view is at the first
-                    // item always show the addButton
-                    if (!v.canScrollVertically(-1)) {
-                        binding.addButton.show()
-                    }
+                // if the recycler view is scrolled
+                // above hide the addButton
+                if (dy > 10 && binding.addButton.isShown) {
+                    binding.addButton.hide()
                 }
-            })
+
+                // if the recycler view is
+                // scrolled above show the addButton
+                if (dy < -10 && !binding.addButton.isShown) {
+                    binding.addButton.show()
+                }
+
+                // of the recycler view is at the first
+                // item always show the addButton
+                if (!v.canScrollVertically(-1)) {
+                    binding.addButton.show()
+                }
+            }
+        })
         binding.addButton.setOnClickListener{
             Intent(this,AddEventPhotosActivity::class.java).also{
                 it.putExtra("key", key)
@@ -106,8 +115,6 @@ class EventDetailsActivity : AppCompatActivity() {
             "https://dailypost.ng/wp-content/uploads/2023/05/Messi.jpg","https://cdn.britannica.com/35/238335-050-2CB2EB8A/Lionel-Messi-Argentina-Netherlands-World-Cup-Qatar-2022.jpg",
             "https://dailypost.ng/wp-content/uploads/2022/11/3cabcc81540d0491.jpg"
         )
-        val adapter = GridViewAdapter(imageUrls)
-        binding.gridView.adapter = adapter
 
 //        gridView.setOnItemClickListener { parent, view, position, id ->
 //            val imageUrl = imageUrls[position]
@@ -115,6 +122,33 @@ class EventDetailsActivity : AppCompatActivity() {
 //        }
 
 
+    }
+    private fun readImages()
+    {
+        var database = FirebaseDatabase.getInstance("https://nexum-c8155-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("eventImages/$key")
+        val auth= Firebase.auth
+        database.addValueEventListener(object :ValueEventListener {
+            @RequiresApi(Build.VERSION_CODES.O)
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                dataset.clear()
+                for(snapshot in dataSnapshot.children) {
+                    val eventMap=snapshot.value as Map<String,Any?>
+                    val image=imageFromMap(eventMap)
+                    image.eventKey=key
+                    image.imageKey=snapshot.key
+                    dataset.add(image)
+                }
+
+                adapter = GridViewAdapter(dataset)
+                binding.gridView.adapter=adapter
+
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.w(ContentValues.TAG, "loadPost:onCancelled", databaseError.toException())
+            }
+        })
     }
     fun updateData(event: Event){
         binding.collapsingToolbar.title=event.title

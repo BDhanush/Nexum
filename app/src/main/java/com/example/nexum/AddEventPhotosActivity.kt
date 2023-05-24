@@ -80,7 +80,7 @@ class AddEventPhotosActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     val downloadUri = task.result
                     sharedImage.imageURL=downloadUri.toString()
-                    database.child("eventImages").child(key!!).setValue(sharedImage)
+                    database.child("eventImages").child(eventKey).child(key!!).setValue(sharedImage)
                     Toast.makeText(this,"Image added", Toast.LENGTH_SHORT).show()
                     finish()
                 }

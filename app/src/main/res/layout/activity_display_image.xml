@@ -28,6 +28,7 @@
         android:backgroundTint="#D11A2A"
         android:textColor="#FFFFFF"
         android:visibility="invisible"
+        android:id="@+id/deleteButton"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

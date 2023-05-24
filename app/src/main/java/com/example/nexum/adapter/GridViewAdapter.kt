@@ -7,14 +7,16 @@ import android.view.ViewGroup
 import android.widget.AbsListView
 import android.widget.BaseAdapter
 import android.widget.ImageView
+import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.example.nexum.DisplayImageActivity
 import com.example.nexum.R
+import com.example.nexum.model.SharedImage
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.NonDisposableHandle.parent
 
-class GridViewAdapter(private val dataset: List<String>) : BaseAdapter() {
+class GridViewAdapter(private val dataset: MutableList<SharedImage>) : BaseAdapter() {
 
     override fun getCount(): Int {
         return dataset.size
@@ -49,14 +51,20 @@ class GridViewAdapter(private val dataset: List<String>) : BaseAdapter() {
         // Load the image using Glide or Picasso
         parent?.context?.let {
             Glide.with(it)
-                .load(dataset[position])
+                .load(dataset[position].imageURL)
                 .into(viewHolder.imageView)
+
         }
+
 
         // Set click listener for the ImageView
         viewHolder.imageView.setOnClickListener {
             val intent = Intent(parent?.context, DisplayImageActivity::class.java)
-            intent.putExtra("imageUrl", dataset[position])
+            intent.putExtra("imageUrl", dataset[position].imageURL)
+            intent.putExtra("owner",dataset[position].uid)
+            intent.putExtra("imageKey",dataset[position].imageKey)
+            intent.putExtra("eventKey",dataset[position].eventKey)
+
             parent?.context?.startActivity(intent)
         }
 

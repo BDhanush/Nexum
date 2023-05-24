@@ -7,6 +7,7 @@ import com.google.firebase.database.IgnoreExtraProperties
 
 data class SharedImage(val uid:String?=null, var imageURL:String?=null, val datePosted:Long=System.currentTimeMillis()) {
     var eventKey:String?=null
+    var imageKey:String?=null
     @Exclude
     fun toMap(): Map<String, Any?> {
         return mapOf(
