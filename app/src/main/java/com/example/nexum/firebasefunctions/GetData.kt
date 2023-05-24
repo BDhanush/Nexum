@@ -2,7 +2,9 @@ package com.example.nexum.firebasefunctions
 
 import android.content.ContentValues
 import android.location.Location
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import com.example.nexum.model.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.database.DataSnapshot
@@ -21,6 +23,7 @@ fun oppoFromMap(map:Map<String,Any?>): Opportunity
     return Opportunity(map["uid"] as String,map["title"] as String,map["description"] as String,map["link"] as String,map["datePosted"] as Long)
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun eventFromMap(map:Map<String,Any?>): Event
 {
     val event= Event(map["uid"] as String,map["title"] as String,map["description"] as String,map["venue"] as String,map["date"] as String,map["time"] as String)

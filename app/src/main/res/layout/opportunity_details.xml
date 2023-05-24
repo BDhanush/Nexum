@@ -39,7 +39,6 @@
         android:id="@+id/datePosted"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
         android:layout_marginBottom="7dp"
         android:text="22/2/2022"
         android:textAppearance="?attr/textAppearanceBodyMedium"
@@ -48,7 +47,7 @@
         android:textSize="10dp"
         app:layout_constraintBottom_toTopOf="@+id/title"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profilePicture" />
+        app:layout_constraintTop_toBottomOf="@+id/applyButton" />
 
     <Button
         android:id="@+id/applyButton"
@@ -58,18 +57,19 @@
         android:text="Apply"
         app:icon="@drawable/baseline_add_24"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/profilePicture" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Title, secondary and supporting text -->
     <TextView
         android:id="@+id/title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:textAppearance="?attr/textAppearanceTitleLarge"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/applyButton"
-        tools:text="Opportunity" />
+        app:layout_constraintTop_toBottomOf="@id/datePosted"
+        tools:text="Opportunity"
+        />
 
     <TextView
         android:id="@+id/description"

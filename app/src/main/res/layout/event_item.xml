@@ -9,6 +9,7 @@
     app:cardCornerRadius="16dp"
     android:clickable="true"
     android:focusable="true"
+    android:id="@+id/eventCard"
     >
     <LinearLayout
         android:layout_width="match_parent"
@@ -49,8 +50,8 @@
             android:scaleType="centerCrop"
             android:layout_height="200dp"
             android:layout_gravity="center"
-            android:background="#F4C2C2"
             android:id="@+id/previewImage"
+            android:background="#FFFFFF"
             android:contentDescription="@string/app_name" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -75,7 +76,7 @@
 
             <TextView
                 android:id="@+id/description"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 tools:text="description"
                 android:gravity="top"
@@ -84,12 +85,13 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/interestButton"
                 app:layout_constraintBottom_toTopOf="@id/location"
+                app:layout_constraintEnd_toStartOf="@id/interestButton"
                 android:maxLines="2"
                 />
 
             <TextView
                 android:id="@+id/location"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 tools:text="Venue: "
@@ -99,6 +101,7 @@
                 app:layout_constraintTop_toBottomOf="@id/description"
                 android:gravity="bottom"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/interestButton"
                 android:maxLines="1"
                 />
 

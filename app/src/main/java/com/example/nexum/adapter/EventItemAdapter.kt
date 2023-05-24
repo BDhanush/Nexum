@@ -21,6 +21,7 @@ import com.example.nexum.Notification
 import com.example.nexum.firebasefunctions.userFromMap
 import com.example.nexum.model.Event
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -45,7 +46,7 @@ class EventItemAdapter(val dataset:MutableList<Event>): RecyclerView.Adapter<Eve
         val date:TextView=view.findViewById(R.id.date)
         val location:TextView=view.findViewById(R.id.location)
         val time:TextView=view.findViewById(R.id.time)
-
+        val eventCard:MaterialCardView=view.findViewById(R.id.eventCard)
 
 
 
@@ -98,14 +99,16 @@ class EventItemAdapter(val dataset:MutableList<Event>): RecyclerView.Adapter<Eve
             }
         })
         val alarmManager = holder.itemView.context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val epochString = item.date+" "+item.time
-        val dtf: DateTimeFormatter = DateTimeFormatter.ofPattern("MMM d, yyyy h:mm a").withZone(
-            ZoneId.of(ZoneId.systemDefault().id))
-        val zdt: ZonedDateTime = ZonedDateTime.parse(epochString,dtf)
-        var epoch:Long = zdt.toInstant().toEpochMilli()
 
-        if(!isExpired(holder.interestButton,epoch)){
+        if(!isExpired(holder.interestButton,item.epoch!!)){
             getInterest(holder.interestButton,item)
+        }
+
+        holder.eventCard.setOnClickListener {
+            val keyEvent = item.key
+            val intent = Intent(holder.itemView.context, EventDetailsActivity::class.java)
+            intent.putExtra("key", keyEvent)
+            holder.itemView.context.startActivity(intent)
         }
 
         holder.interestButton.setOnClickListener {
@@ -138,7 +141,7 @@ class EventItemAdapter(val dataset:MutableList<Event>): RecyclerView.Adapter<Eve
                     PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
                 )
 
-                epoch-=3600000
+                val epoch=item.epoch!!-3600000
 
                 alarmManager.setExactAndAllowWhileIdle(
                     AlarmManager.RTC_WAKEUP,
