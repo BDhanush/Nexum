@@ -1,6 +1,7 @@
 package com.example.nexum.adapter
 
 import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.util.Log
@@ -10,12 +11,17 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nexum.OpportunityDetailsActivity
 import com.example.nexum.R
+import com.example.nexum.firebasefunctions.deleteEvent
+import com.example.nexum.firebasefunctions.deleteOppo
 import com.example.nexum.firebasefunctions.oppoFromMap
 import com.example.nexum.firebasefunctions.userFromMap
 import com.example.nexum.model.Opportunity
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.imageview.ShapeableImageView
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
+import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
 import java.sql.Date
 import java.text.SimpleDateFormat
@@ -23,6 +29,7 @@ import java.text.SimpleDateFormat
 
 class OpportunityItemAdapter(val dataset:MutableList<Opportunity>): RecyclerView.Adapter<OpportunityItemAdapter.ItemViewHolder>()
 {
+    lateinit var context: Context
     inner class ItemViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         val profilePicture: ShapeableImageView =view.findViewById(R.id.profilePicture)
         val username:TextView=view.findViewById(R.id.username)
@@ -38,6 +45,7 @@ class OpportunityItemAdapter(val dataset:MutableList<Opportunity>): RecyclerView
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         // create a new view
+        context=parent.context
         val adapterLayout = LayoutInflater.from(parent.context).inflate(R.layout.opportunities_item, parent, false)
 
         return ItemViewHolder(adapterLayout)
@@ -69,6 +77,24 @@ class OpportunityItemAdapter(val dataset:MutableList<Opportunity>): RecyclerView
         holder.applyButton.setOnClickListener {
             val browse = Intent(Intent.ACTION_VIEW, Uri.parse(item.link))
             holder.itemView.context.startActivity(browse)
+        }
+        holder.oppoCard.setOnLongClickListener {
+            val auth= Firebase.auth
+            if(auth.currentUser!!.uid==item.uid) {
+                MaterialAlertDialogBuilder(holder.itemView.context)
+                    .setTitle("Delete ${item.title}")
+                    .setMessage("Are you sure you want to delete this post? All data related to ${item.title} will be lost permanently.")
+                    .setNegativeButton("Cancel") { dialog, which ->
+
+                    }
+                    .setPositiveButton("Delete") { dialog, which ->
+                        deleteOppo(item.key!!,context)
+                        Toast.makeText(context,"Opportunity Deleted", Toast.LENGTH_SHORT).show()
+
+                    }
+                    .show()
+            }
+            return@setOnLongClickListener true
         }
         holder.oppoCard.setOnClickListener{
             val keyOpportunity = item.key

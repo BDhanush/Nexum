@@ -104,22 +104,9 @@ class EventDetailsActivity : AppCompatActivity() {
                 startActivity(it)
             }
         }
-
-        val imageUrls = listOf("https://upload.wikimedia.org/wikipedia/commons/b/b4/Lionel-Messi-Argentina-2022-FIFA-World-Cup_%28cropped%29.jpg",
-            "https://dailypost.ng/wp-content/uploads/2023/05/Messi.jpg","https://cdn.britannica.com/35/238335-050-2CB2EB8A/Lionel-Messi-Argentina-Netherlands-World-Cup-Qatar-2022.jpg",
-            "https://dailypost.ng/wp-content/uploads/2022/11/3cabcc81540d0491.jpg","https://upload.wikimedia.org/wikipedia/commons/b/b4/Lionel-Messi-Argentina-2022-FIFA-World-Cup_%28cropped%29.jpg",
-            "https://dailypost.ng/wp-content/uploads/2023/05/Messi.jpg","https://cdn.britannica.com/35/238335-050-2CB2EB8A/Lionel-Messi-Argentina-Netherlands-World-Cup-Qatar-2022.jpg",
-            "https://dailypost.ng/wp-content/uploads/2022/11/3cabcc81540d0491.jpg","https://upload.wikimedia.org/wikipedia/commons/b/b4/Lionel-Messi-Argentina-2022-FIFA-World-Cup_%28cropped%29.jpg",
-            "https://dailypost.ng/wp-content/uploads/2023/05/Messi.jpg","https://cdn.britannica.com/35/238335-050-2CB2EB8A/Lionel-Messi-Argentina-Netherlands-World-Cup-Qatar-2022.jpg",
-            "https://dailypost.ng/wp-content/uploads/2022/11/3cabcc81540d0491.jpg","https://upload.wikimedia.org/wikipedia/commons/b/b4/Lionel-Messi-Argentina-2022-FIFA-World-Cup_%28cropped%29.jpg",
-            "https://dailypost.ng/wp-content/uploads/2023/05/Messi.jpg","https://cdn.britannica.com/35/238335-050-2CB2EB8A/Lionel-Messi-Argentina-Netherlands-World-Cup-Qatar-2022.jpg",
-            "https://dailypost.ng/wp-content/uploads/2022/11/3cabcc81540d0491.jpg"
-        )
-
-//        gridView.setOnItemClickListener { parent, view, position, id ->
-//            val imageUrl = imageUrls[position]
-//            openImage(imageUrl)
-//        }
+        binding.toggleButtons.addOnButtonCheckedListener { group, checkedId, isChecked ->
+            filtered(binding.toggleButtons.checkedButtonIds, event!!.uid!!)
+        }
 
 
     }
@@ -149,6 +136,36 @@ class EventDetailsActivity : AppCompatActivity() {
                 Log.w(ContentValues.TAG, "loadPost:onCancelled", databaseError.toException())
             }
         })
+
+    }
+
+    private fun filtered(checked:List<Int>,creatorId:String)
+    {
+        val filtereredList:MutableList<SharedImage> = mutableListOf()
+        if(checked.isEmpty())
+        {
+            adapter = GridViewAdapter(dataset)
+            binding.gridView.adapter=adapter
+        }
+        val auth=Firebase.auth
+        val curUser=auth.currentUser!!.uid
+        for(image in dataset){
+            for(i in checked){
+                if(image.uid==creatorId && i==binding.organizer.id){
+                    filtereredList.add(image)
+                    break
+                }else if(curUser == image.uid && i==binding.you.id){
+                    filtereredList.add(image)
+                    break
+                }else if(curUser != image.uid && creatorId!=curUser && i==binding.users.id){
+                    filtereredList.add(image)
+                    break
+                }
+            }
+        }
+
+        adapter = GridViewAdapter(filtereredList)
+        binding.gridView.adapter=adapter
     }
     fun updateData(event: Event){
         binding.collapsingToolbar.title=event.title

@@ -41,7 +41,7 @@ class AddSharedActivity : AppCompatActivity() {
             {
                 val sharedFile=SharedFile(
                     auth.currentUser!!.uid,
-                    binding.renameInput.text.toString() + binding.fileName.text.toString().dropWhile { it!='.' },
+                    binding.renameInput.text.toString().trim() + binding.fileName.text.toString().dropWhile { it!='.' },
                     null
                 )
                 uploadFile(sharedFile)

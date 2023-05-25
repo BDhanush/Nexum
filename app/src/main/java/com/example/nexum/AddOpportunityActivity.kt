@@ -29,9 +29,9 @@ class AddOpportunityActivity : AppCompatActivity() {
                 val auth = Firebase.auth
                 val opportunity=Opportunity(
                     auth.currentUser!!.uid,
-                    binding.opportunityNameInput.text.toString(),
-                    binding.descriptionInput.text.toString(),
-                    binding.linkInput.text.toString()
+                    binding.opportunityNameInput.text.toString().trim(),
+                    binding.descriptionInput.text.toString().trim(),
+                    binding.linkInput.text.toString().trim()
                 )
                 uploadOpportunity(opportunity)
             }
@@ -63,11 +63,15 @@ class AddOpportunityActivity : AppCompatActivity() {
         if (binding.linkInput.text.toString().isEmpty()) {
             binding.linkInput.error = "This field is required"
             check = false
-        }else if(!isLink(binding.linkInput.text.toString()))
+        }else if(!isFormLink(binding.linkInput.text.toString())) {
+            binding.linkInput.error = "Enter a valid form link"
+            check=false
+        }
+        /*else if(!isLink(binding.linkInput.text.toString()))
         {
             binding.linkInput.error = "Enter valid link"
             check = false
-        }
+        }*/
         // after all validation return true.
         return check
 
@@ -77,6 +81,17 @@ class AddOpportunityActivity : AppCompatActivity() {
     {
         val pattern = Regex("https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)")
         return pattern.containsMatchIn(link)
+    }
+
+    fun isFormLink(link:String):Boolean
+    {
+        val patternGoogleForm= Regex("^https:\\/\\/docs\\.google\\.com\\/forms\\/d\\/.*")
+        val patternGoogleShortenedForm= Regex("^https:\\/\\/forms\\.gle\\/.*")
+        val patternMicrosoftForm= Regex("^https:\\/\\/forms.office.com\\/Pages\\/ResponsePage.aspx\\?id=.*")
+        return (patternGoogleForm.containsMatchIn(link) ||
+            patternGoogleShortenedForm.containsMatchIn(link) ||
+            patternMicrosoftForm.containsMatchIn(link)
+        )
     }
 
 }

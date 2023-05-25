@@ -18,15 +18,21 @@ import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nexum.*
 import com.example.nexum.Notification
+import com.example.nexum.firebasefunctions.deleteEvent
+import com.example.nexum.firebasefunctions.eventFromMap
 import com.example.nexum.firebasefunctions.userFromMap
 import com.example.nexum.model.Event
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.imageview.ShapeableImageView
+import com.google.android.play.integrity.internal.c
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
 import java.time.OffsetDateTime
 import java.time.ZoneId
@@ -36,6 +42,7 @@ import java.util.*
 
 class EventItemAdapter(val dataset:MutableList<Event>): RecyclerView.Adapter<EventItemAdapter.ItemViewHolder>()
 {
+    lateinit var context: Context
     inner class ItemViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         val previewImage:ImageView= view.findViewById(R.id.previewImage)
         val title:TextView=view.findViewById(R.id.title)
@@ -61,6 +68,8 @@ class EventItemAdapter(val dataset:MutableList<Event>): RecyclerView.Adapter<Eve
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         // create a new view
+        context=parent.context
+
         val adapterLayout = LayoutInflater.from(parent.context).inflate(R.layout.event_item, parent, false)
 
         return ItemViewHolder(adapterLayout)
@@ -110,7 +119,23 @@ class EventItemAdapter(val dataset:MutableList<Event>): RecyclerView.Adapter<Eve
             intent.putExtra("key", keyEvent)
             holder.itemView.context.startActivity(intent)
         }
+        holder.eventCard.setOnLongClickListener {
+            val auth=Firebase.auth
+            if(auth.currentUser!!.uid==item.uid) {
+                MaterialAlertDialogBuilder(holder.itemView.context)
+                    .setTitle("Delete ${item.title}")
+                    .setMessage("Are you sure you want to delete this event? All media related to ${item.title} will be lost permanently.")
+                    .setNegativeButton("Cancel") { dialog, which ->
 
+                    }
+                    .setPositiveButton("Delete") { dialog, which ->
+                        deleteEvent(item.key!!,context)
+                        Toast.makeText(context,"Event Deleted", Toast.LENGTH_SHORT).show()
+                    }
+                    .show()
+            }
+            return@setOnLongClickListener true
+        }
         holder.interestButton.setOnClickListener {
             if(holder.interestButton.text=="interested")
             {

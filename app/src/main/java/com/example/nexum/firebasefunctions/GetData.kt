@@ -1,9 +1,12 @@
 package com.example.nexum.firebasefunctions
 
 import android.content.ContentValues
+import android.content.Context
 import android.location.Location
 import android.os.Build
 import android.util.Log
+import android.view.View
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.example.nexum.model.*
 import com.google.android.gms.maps.model.LatLng
@@ -11,6 +14,8 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import java.util.concurrent.CountDownLatch
 
 fun fileFromMap(map:Map<String,Any?>): SharedFile
@@ -41,6 +46,47 @@ fun eventFromMap(map:Map<String,Any?>): Event
 fun locationFromMap(map:Map<String,Any?>): LocationModel
 {
     return LocationModel(LatLng( map["latitude"] as Double,map["longitude"] as Double))
+}
+
+fun deleteEvent(eventKey:String,context:Context)
+{
+    val database = FirebaseDatabase.getInstance("https://nexum-c8155-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("events/$eventKey")
+    database.removeValue()
+
+    val storageRef = Firebase.storage.reference
+    val desertRef = storageRef.child("images/$eventKey")
+
+    desertRef.delete().addOnSuccessListener {
+//        Toast.makeText(context,"Event Deleted", Toast.LENGTH_SHORT).show()
+    }.addOnFailureListener {
+        // Uh-oh, an error occurred!
+    }
+
+}
+fun deleteShared(sharedKey:String,context:Context)
+{
+    val database = FirebaseDatabase.getInstance("https://nexum-c8155-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("files/$sharedKey")
+    database.removeValue()
+
+    val storageRef = Firebase.storage.reference
+    val desertRef = storageRef.child("files/$sharedKey")
+
+    desertRef.delete().addOnSuccessListener {
+//        Toast.makeText(context,"File Deleted", Toast.LENGTH_SHORT).show()
+    }.addOnFailureListener {
+        // Uh-oh, an error occurred!
+    }
+
+}
+
+fun deleteOppo(oppoKey:String,context: Context)
+{
+    val database = FirebaseDatabase.getInstance("https://nexum-c8155-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("opportunities/$oppoKey")
+    database.removeValue().addOnSuccessListener {
+//        Toast.makeText(context,"Opportunity Deleted", Toast.LENGTH_SHORT).show()
+    }.addOnFailureListener {
+        // Uh-oh, an error occurred!
+    }
 }
 
 fun userFromMap(map:Map<String,Any?>): User
