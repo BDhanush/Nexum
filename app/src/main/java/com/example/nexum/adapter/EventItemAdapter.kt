@@ -78,8 +78,6 @@ class EventItemAdapter(val dataset:MutableList<Event>): RecyclerView.Adapter<Eve
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item = dataset[position]
-//        holder.username.text= getUsername(item.uid);
-//        holder.profilePicture.setImageURI(Uri.parse(getProfilePicture(item.uid)));
 
         if(item.previewImage!=null)
         {
