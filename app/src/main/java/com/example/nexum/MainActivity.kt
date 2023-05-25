@@ -1,20 +1,29 @@
 package com.example.nexum
 
+import android.content.ContentValues.TAG
 import android.Manifest
 import android.app.*
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.content.pm.PackageManager
 import android.location.Criteria
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
-import android.util.Log
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
+import android.view.KeyEvent
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
+import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
@@ -23,6 +32,8 @@ import com.example.nexum.model.LocationModel
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.search.SearchBar
+import com.google.android.material.search.SearchView
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import java.io.*
@@ -222,5 +233,15 @@ class MainActivity : AppCompatActivity() {
 //        outputStreamSet.writeObject(set)
 //        outputStreamSet.flush()
 //        outputStreamSet.close()
+//    }
+//    override fun onBackPressed() {
+//        val searchView: SearchView = findViewById(R.id.searchView)
+//        val searchBar: SearchBar = findViewById(R.id.searchBar)
+//        if (searchView.isShowing) {
+//            searchView.hide()
+//            searchBar.clearText()
+//            return
+//        }
+//        super.onBackPressed()
 //    }
 }
