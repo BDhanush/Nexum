@@ -172,8 +172,8 @@ class OpportunitiesFragment : Fragment() {
                     }
                 }
                 adapter = OpportunityItemAdapter(dataset)
-                opportunityRecyclerView.adapter=adapter
                 progressBar.hide()
+                opportunityRecyclerView.adapter=adapter
 
             }
 

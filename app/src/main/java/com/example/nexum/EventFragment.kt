@@ -167,8 +167,8 @@ class EventFragment : Fragment() {
                 }
                 sortExpired(dataset)
                 adapter = EventItemAdapter(dataset)
-                eventRecyclerView.adapter=adapter
                 progressBar.hide()
+                eventRecyclerView.adapter=adapter
 
 
 

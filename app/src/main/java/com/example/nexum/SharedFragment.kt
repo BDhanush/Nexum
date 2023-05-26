@@ -168,9 +168,8 @@ class SharedFragment : Fragment() {
                     }
                 }
                 adapter = SharedItemAdapter(dataset)
-                progressBar.visibility=View.INVISIBLE
-                sharedRecyclerView.adapter=adapter
                 progressBar.hide()
+                sharedRecyclerView.adapter=adapter
 
             }
 
