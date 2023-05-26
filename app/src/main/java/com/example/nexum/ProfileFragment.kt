@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide
 import com.example.nexum.firebasefunctions.userFromMap
 import com.example.nexum.model.SharedImage
 import com.example.nexum.model.User
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -115,7 +116,11 @@ class ProfileFragment : Fragment() {
     }
     private fun updateUser()
     {
-
+//        val submit:Button=view.findViewById(R.id.submit)
+//        val progressBar:CircularProgressIndicator=view.findViewById(R.id.progressBar)
+//        submit.isEnabled=false
+//        submit.text="Updating"
+//        progressBar.show()
         val database = FirebaseDatabase.getInstance("https://nexum-c8155-default-rtdb.asia-southeast1.firebasedatabase.app/").reference
 
         if(selectedImageUri!=null)
