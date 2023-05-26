@@ -52,6 +52,9 @@ class AddSharedActivity : AppCompatActivity() {
 
     private fun uploadFile(sharedFile: SharedFile)
     {
+        binding.submit.isEnabled=false
+        binding.submit.text="Adding File"
+        binding.progressBar.show()
         val database = FirebaseDatabase.getInstance("https://nexum-c8155-default-rtdb.asia-southeast1.firebasedatabase.app/").reference
         val key = database.child("files").push().key
         if(selectedFileUri!=null)

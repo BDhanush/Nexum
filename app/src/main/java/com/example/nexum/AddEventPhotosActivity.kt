@@ -59,6 +59,9 @@ class AddEventPhotosActivity : AppCompatActivity() {
 
     private fun uploadImage(sharedImage: SharedImage)
     {
+        binding.submit.isEnabled=false
+        binding.submit.text="Adding Image"
+        binding.progressBar.show()
 
         val database = FirebaseDatabase.getInstance("https://nexum-c8155-default-rtdb.asia-southeast1.firebasedatabase.app/").reference
         val key = database.child("eventImages").child(eventKey).push().key

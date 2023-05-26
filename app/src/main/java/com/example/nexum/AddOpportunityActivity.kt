@@ -40,6 +40,9 @@ class AddOpportunityActivity : AppCompatActivity() {
     }
     private fun uploadOpportunity(opportunity: Opportunity)
     {
+        binding.submit.isEnabled=false
+        binding.submit.text="Adding Opportunities"
+        binding.progressBar.show()
         val database = FirebaseDatabase.getInstance("https://nexum-c8155-default-rtdb.asia-southeast1.firebasedatabase.app/").reference
         val key = database.child("opportunities").push().key
         database.child("opportunities").child(key!!).setValue(opportunity).addOnSuccessListener {

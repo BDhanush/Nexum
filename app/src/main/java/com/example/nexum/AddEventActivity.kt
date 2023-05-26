@@ -103,7 +103,9 @@ class AddEventActivity : AppCompatActivity() {
     }
     private fun uploadEvent(event:Event)
     {
-        Toast.makeText(this,"Adding Event",Toast.LENGTH_SHORT).show()
+        binding.submit.isEnabled=false
+        binding.submit.text="Adding Event"
+        binding.progressBar.show()
         val database = FirebaseDatabase.getInstance("https://nexum-c8155-default-rtdb.asia-southeast1.firebasedatabase.app/").reference
         val key = database.child("events").push().key
         val storageRef = Firebase.storage
