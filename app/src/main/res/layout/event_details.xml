@@ -95,6 +95,7 @@
                 android:textAppearance="?attr/textAppearanceBodyMedium"
                 android:textColor="?android:attr/textColorSecondary"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/date"
                 app:layout_constraintStart_toStartOf="parent"
                 android:maxLines="2"
                 />
