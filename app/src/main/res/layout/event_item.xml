@@ -42,6 +42,8 @@
                 app:layout_constraintTop_toTopOf="@+id/profilePicture"
                 android:layout_margin="8dp"
                 android:maxLines="1"
+                android:ellipsize="end"
+
                 />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -72,6 +74,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/interestButton"
                 android:maxLines="1"
+                android:ellipsize="end"
+
                 tools:text="Event Name" />
 
             <TextView
@@ -87,6 +91,8 @@
                 app:layout_constraintBottom_toTopOf="@id/location"
                 app:layout_constraintEnd_toStartOf="@id/interestButton"
                 android:maxLines="2"
+                android:ellipsize="end"
+
                 />
 
             <TextView
@@ -103,6 +109,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/interestButton"
                 android:maxLines="1"
+                android:ellipsize="end"
+
                 />
 
             <TextView

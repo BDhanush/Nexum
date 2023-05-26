@@ -39,6 +39,8 @@
                 app:layout_constraintStart_toEndOf="@+id/profilePicture"
                 app:layout_constraintTop_toTopOf="@+id/profilePicture"
                 android:maxLines="1"
+                android:ellipsize="end"
+
                 android:layout_margin="8dp"
                 />
 
@@ -74,6 +76,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/datePosted"
                 android:maxLines="1"
+                android:ellipsize="end"
                 tools:text="file.txt" />
 
             <TextView
@@ -86,6 +89,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/fileName"
                 android:maxLines="1"
+                android:ellipsize="end"
+
                 />
 
 <!--            <androidx.appcompat.widget.AppCompatRatingBar-->
