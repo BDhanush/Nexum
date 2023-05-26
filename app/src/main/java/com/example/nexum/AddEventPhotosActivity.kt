@@ -118,12 +118,12 @@ class AddEventPhotosActivity : AppCompatActivity() {
             selectedImageUri=data!!.data
             binding.seeImage.visibility=View.VISIBLE
             val cursor = contentResolver.query(data.data!!, null, null, null, null)
-            if (cursor != null && cursor.moveToFirst()) {
-                val imageName=cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME))
-                binding.imageName.setText("Selected Image: $imageName")
-            }
+//            if (cursor != null && cursor.moveToFirst()) {
+//                val imageName=cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME))
+//                binding.imageName.setText("Selected Image: $imageName")
+//            }
 
-            binding.imageName.visibility= View.VISIBLE
+//            binding.imageName.visibility= View.VISIBLE
 
         }
     }
