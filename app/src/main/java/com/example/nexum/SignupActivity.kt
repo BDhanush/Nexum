@@ -84,7 +84,6 @@ class SignupActivity : AppCompatActivity() {
 
                 writeNewUser(auth.currentUser!!.uid, firstName.text.toString() , lastName.text.toString(), email = email.text.toString())
 
-                finish()
 
             } else {
                 Toast.makeText(
@@ -128,7 +127,9 @@ class SignupActivity : AppCompatActivity() {
                     val downloadUri = task.result
                     user.profilePicture = downloadUri.toString()
                     Toast.makeText(baseContext, user.profilePicture, Toast.LENGTH_SHORT).show()
-                    database.child("users").child(uid).setValue(user)
+                    database.child("users").child(uid).setValue(user).addOnSuccessListener {
+                        finish()
+                    }
                 }
             }
         }
