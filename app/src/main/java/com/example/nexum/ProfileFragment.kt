@@ -15,6 +15,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.net.toUri
 import com.bumptech.glide.Glide
 import com.example.nexum.firebasefunctions.userFromMap
 import com.example.nexum.model.SharedImage
@@ -88,7 +89,7 @@ class ProfileFragment : Fragment() {
                 firstName.text = user.firstName
                 lastName.text = user.lastName
                 Glide.with(view)
-                    .load(user.profilePicture)
+                    .load(user.profilePicture!!.toUri())
                     .into(profilePicture)
             }
 
