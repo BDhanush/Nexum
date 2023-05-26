@@ -10,6 +10,7 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -22,6 +23,7 @@ import com.example.nexum.firebasefunctions.fileFromMap
 import com.example.nexum.model.Opportunity
 import com.example.nexum.model.SharedFile
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.firebase.auth.ktx.auth
 import com.google.android.material.search.SearchBar
 import com.google.android.material.search.SearchView
@@ -46,6 +48,7 @@ class SharedFragment : Fragment() {
     val dataset= mutableListOf<SharedFile>()
     lateinit var adapter:SharedItemAdapter
     lateinit var sharedRecyclerView: RecyclerView
+    lateinit var progressBar: CircularProgressIndicator
 
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -55,6 +58,9 @@ class SharedFragment : Fragment() {
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
         }
+        progressBar= requireActivity().findViewById(R.id.progressBar)
+        progressBar.visibility=View.VISIBLE
+        progressBar.show()
         readShared(param1!!.toInt())
     }
 
@@ -104,7 +110,7 @@ class SharedFragment : Fragment() {
 
         searchView.editText.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                // TODO Auto-generated method stub
+
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -162,7 +168,9 @@ class SharedFragment : Fragment() {
                     }
                 }
                 adapter = SharedItemAdapter(dataset)
+                progressBar.visibility=View.INVISIBLE
                 sharedRecyclerView.adapter=adapter
+                progressBar.hide()
 
             }
 

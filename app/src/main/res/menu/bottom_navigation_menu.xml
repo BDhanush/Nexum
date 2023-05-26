@@ -6,10 +6,10 @@
         android:icon="@drawable/selector_event"
         android:title="Event"/>
     <item
-        android:id="@+id/opportunities"
+        android:id="@+id/opportunity"
         android:enabled="true"
         android:icon="@drawable/selector_oppurtunities"
-        android:title="Opportunities"/>
+        android:title="Opportunity"/>
     <item
         android:id="@+id/shared"
         android:enabled="true"
@@ -20,4 +20,9 @@
         android:enabled="true"
         android:icon="@drawable/selector_location"
         android:title="Location"/>
+    <item
+        android:id="@+id/profile"
+        android:enabled="true"
+        android:icon="@drawable/selector_profile"
+        android:title="Profile"/>
 </menu>

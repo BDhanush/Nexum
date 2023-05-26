@@ -3,6 +3,7 @@ package com.example.nexum
 import android.content.ContentValues.TAG
 import android.Manifest
 import android.app.*
+import android.app.PendingIntent.getActivity
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
@@ -13,20 +14,19 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
-import android.view.View.INVISIBLE
-import android.view.View.VISIBLE
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.KeyEvent
-import android.view.View.INVISIBLE
-import android.view.View.VISIBLE
+import android.view.View
+import android.view.View.*
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import com.example.nexum.adapter.SharedItemAdapter
 import com.example.nexum.databinding.ActivityMainBinding
 import com.example.nexum.model.LocationModel
 import com.google.android.gms.maps.model.LatLng
@@ -43,7 +43,7 @@ import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
-    private val tabsFragment = mutableListOf<Fragment>(TabsFragment(),TabsFragment(),TabsFragment(),LocationFragment())
+    private val tabsFragment = mutableListOf<Fragment>(TabsFragment(),TabsFragment(),TabsFragment(),LocationFragment(),ProfileFragment())
     private var activeFragment=tabsFragment[0]
     init {
         val bundle = listOf(Bundle(),Bundle(),Bundle())
@@ -117,6 +117,8 @@ class MainActivity : AppCompatActivity() {
 
         navbar.setOnItemSelectedListener {
             selectedItem=it.itemId
+            binding.searchView.visibility= GONE
+            binding.searchBar.visibility= GONE
 
             binding.addButton.visibility= VISIBLE
             when (it.itemId) {
@@ -124,12 +126,14 @@ class MainActivity : AppCompatActivity() {
                     loadFragment(tabsFragment[0])
                     true
                 }
-                R.id.opportunities -> {
+                R.id.opportunity -> {
                     loadFragment(tabsFragment[1])
                     true
                 }
                 R.id.shared -> {
                     loadFragment(tabsFragment[2])
+                    binding.searchView.visibility= VISIBLE
+                    binding.searchBar.visibility= VISIBLE
                     true
                 }
                 R.id.location -> {
@@ -141,6 +145,16 @@ class MainActivity : AppCompatActivity() {
                     loadLocation(tabsFragment[3] as LocationFragment)
                     true
                 }
+                R.id.profile -> {
+                    binding.addButton.visibility= INVISIBLE
+//                    tabsFragment[3]=LocationFragment()
+//                    supportFragmentManager.beginTransaction().apply {
+//                        add(R.id.fragment, tabsFragment[3]).hide(tabsFragment[3])
+//                    }.commit()
+                    loadFragment(tabsFragment[4] as ProfileFragment)
+                    true
+                }
+
                 else -> {
                     binding.addButton.visibility= INVISIBLE
                     false
@@ -154,7 +168,7 @@ class MainActivity : AppCompatActivity() {
                         startActivity(it)
                     }
                 }
-                R.id.opportunities->{
+                R.id.opportunity->{
                     Intent(this,AddOpportunityActivity::class.java).also {
                         startActivity(it)
                     }
@@ -234,14 +248,17 @@ class MainActivity : AppCompatActivity() {
 //        outputStreamSet.flush()
 //        outputStreamSet.close()
 //    }
-//    override fun onBackPressed() {
-//        val searchView: SearchView = findViewById(R.id.searchView)
-//        val searchBar: SearchBar = findViewById(R.id.searchBar)
-//        if (searchView.isShowing) {
-//            searchView.hide()
-//            searchBar.clearText()
-//            return
-//        }
-//        super.onBackPressed()
-//    }
+    override fun onBackPressed() {
+
+        val searchView: SearchView = findViewById(R.id.searchView)
+        val searchBar: SearchBar = findViewById(R.id.searchBar)
+        if (searchView.isShowing) {
+            searchView.setText("")
+            searchView.hide()
+            searchBar.clearText()
+            return
+        }
+        super.onBackPressed()
+
+    }
 }
