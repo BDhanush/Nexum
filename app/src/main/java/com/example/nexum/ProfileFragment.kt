@@ -3,9 +3,12 @@ package com.example.nexum
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.media.Image
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.provider.OpenableColumns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,6 +18,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import com.bumptech.glide.Glide
 import com.example.nexum.firebasefunctions.userFromMap
 import com.example.nexum.model.SharedImage
@@ -27,6 +31,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.squareup.picasso.Picasso
+import java.io.ByteArrayOutputStream
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -67,6 +72,7 @@ class ProfileFragment : Fragment() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.R)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         profilePicture=view.findViewById(R.id.profilePicture)
@@ -112,6 +118,7 @@ class ProfileFragment : Fragment() {
         }
 
     }
+    @RequiresApi(Build.VERSION_CODES.R)
     private fun updateUser()
     {
 
@@ -122,6 +129,14 @@ class ProfileFragment : Fragment() {
             val storageRef= Firebase.storage
 
             val ref = storageRef.reference.child("images/${user.uid}/profilePicture")
+            // Compress the image before uploading
+            val bitmap = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, selectedImageUri)
+            val compressedBitmap = compressBitmap(bitmap, 500) // Adjust the desired max image size here
+            val baos = ByteArrayOutputStream()
+            compressedBitmap.compress(Bitmap.CompressFormat.WEBP_LOSSY, 0, baos) // Adjust the desired compression quality here
+            val data = baos.toByteArray()
+
+            ref.putBytes(data)
             val uploadTask = ref.putFile(selectedImageUri!!)
 
             val urlTask = uploadTask.continueWithTask { task ->
@@ -149,6 +164,25 @@ class ProfileFragment : Fragment() {
         }
 
 
+    }
+
+    private fun compressBitmap(bitmap: Bitmap, maxSize: Int): Bitmap {
+        var width = bitmap.width
+        var height = bitmap.height
+
+        val aspectRatio: Float = width.toFloat() / height.toFloat()
+
+        if (width > maxSize || height > maxSize) {
+            if (aspectRatio > 1) {
+                width = maxSize
+                height = (width / aspectRatio).toInt()
+            } else {
+                height = maxSize
+                width = (height * aspectRatio).toInt()
+            }
+        }
+
+        return Bitmap.createScaledBitmap(bitmap, width, height, true)
     }
 
     private fun addimage() {

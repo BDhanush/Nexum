@@ -34,6 +34,8 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
+import java.lang.Integer.max
+import java.lang.Math.min
 import java.time.OffsetDateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -78,6 +80,27 @@ class EventItemAdapter(val dataset:MutableList<Event>): RecyclerView.Adapter<Eve
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item = dataset[position]
+        val PRELOAD_COUNT = 3 // Number of items to pre-cache ahead
+
+        // Preload items ahead
+        for (i in position + 1 until (position + PRELOAD_COUNT).coerceAtMost(dataset.size)) {
+            val nextItem = dataset[i]
+            if (nextItem.previewImage != null) {
+                Picasso.get()
+                    .load(nextItem.previewImage)
+                    .fetch()
+            }
+        }
+
+        // Preload items behind
+        for (i in position - 1 downTo max(position - PRELOAD_COUNT, 0)) {
+            val prevItem = dataset[i]
+            if (prevItem.previewImage != null) {
+                Picasso.get()
+                    .load(prevItem.previewImage)
+                    .fetch()
+            }
+        }
 
         if(item.previewImage!=null)
         {
