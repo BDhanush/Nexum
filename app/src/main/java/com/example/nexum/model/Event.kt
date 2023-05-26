@@ -7,6 +7,7 @@ import com.google.firebase.database.IgnoreExtraProperties
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 @IgnoreExtraProperties
 data class Event(val uid:String?=null, val title:String?=null, val description:String?=null, val venue:String?=null,val date:String?,val time:String?){
@@ -20,7 +21,7 @@ data class Event(val uid:String?=null, val title:String?=null, val description:S
     fun setEpoch()
     {
         val epochString = this.date+" "+this.time
-        val dtf: DateTimeFormatter = DateTimeFormatter.ofPattern("MMM d, yyyy h:mm a").withZone(
+        val dtf: DateTimeFormatter = DateTimeFormatter.ofPattern("MMM d, yyyy h:mm a", Locale.ENGLISH).withZone(
             ZoneId.of(ZoneId.systemDefault().id))
         val zdt: ZonedDateTime = ZonedDateTime.parse(epochString,dtf)
         epoch = zdt.toInstant().toEpochMilli()
