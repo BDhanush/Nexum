@@ -63,7 +63,7 @@ class OpportunitiesFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-        progressBar= requireActivity().findViewById(R.id.progressBar)
+        progressBar= requireView().findViewById(R.id.progressBar)
         progressBar.show()
         readOppo(param1!!.toInt())
 
