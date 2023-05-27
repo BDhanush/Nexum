@@ -21,20 +21,20 @@ data class Event(val uid:String?=null, val title:String?=null, val description:S
     @RequiresApi(Build.VERSION_CODES.O)
     fun setEpoch()
     {
-        epoch = try {
+        try {
             val epochString = this.date + " " + this.time
             val dtf: DateTimeFormatter = DateTimeFormatter.ofPattern("MMM d, yyyy h:mm a").withZone(
                 ZoneId.of(ZoneId.systemDefault().id)
             )
             val zdt: ZonedDateTime = ZonedDateTime.parse(epochString, dtf)
-            zdt.toInstant().toEpochMilli()
+            epoch = zdt.toInstant().toEpochMilli()
         }catch (e:Exception){
             val epochString = this.date + " " + this.time!!.lowercase()
             val dtf: DateTimeFormatter = DateTimeFormatter.ofPattern("MMM d, yyyy h:mm a").withZone(
                 ZoneId.of(ZoneId.systemDefault().id)
             )
             val zdt: ZonedDateTime = ZonedDateTime.parse(epochString, dtf)
-            zdt.toInstant().toEpochMilli()
+            epoch = zdt.toInstant().toEpochMilli()
         }
     }
     init{

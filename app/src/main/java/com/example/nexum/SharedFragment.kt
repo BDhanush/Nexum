@@ -58,7 +58,7 @@ class SharedFragment : Fragment() {
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
         }
-        progressBar= requireView().findViewById(R.id.progressBar)
+        progressBar= requireActivity().findViewById(R.id.progressBar)
         progressBar.show()
         readShared(param1!!.toInt())
     }

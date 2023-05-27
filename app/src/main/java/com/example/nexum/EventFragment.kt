@@ -72,6 +72,8 @@ class EventFragment : Fragment() {
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
         }
+        progressBar= requireActivity().findViewById(R.id.progressBar)
+        progressBar.show()
         readEvents(param1!!.toInt())
 
     }
@@ -81,7 +83,6 @@ class EventFragment : Fragment() {
 
         super.onViewCreated(view, savedInstanceState)
 
-        progressBar= requireView().findViewById(R.id.progressBar)
         eventRecyclerView=view.findViewById(R.id.eventRecyclerView)
         val linearLayoutManager= LinearLayoutManager(this.context)
         eventRecyclerView.layoutManager=linearLayoutManager
