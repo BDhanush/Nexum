@@ -89,11 +89,11 @@ class AddEventActivity : AppCompatActivity() {
             val auth = Firebase.auth
             val event=Event(
                 auth.currentUser!!.uid,
-                binding.eventNameInput.text.toString().uppercase().trim(),
+                binding.eventNameInput.text.toString().trim(),
                 binding.descriptionInput.text.toString().trim(),
                 binding.venueInput.text.toString().trim(),
                 date,
-                time
+                time!!.uppercase()
             )
             if(checkFields()) {
                 uploadEvent(event)
