@@ -59,7 +59,6 @@ class SharedFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
         }
         progressBar= requireActivity().findViewById(R.id.progressBar)
-        progressBar.visibility=View.VISIBLE
         progressBar.show()
         readShared(param1!!.toInt())
     }
