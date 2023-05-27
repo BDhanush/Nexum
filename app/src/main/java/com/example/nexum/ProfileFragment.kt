@@ -127,7 +127,7 @@ class ProfileFragment : Fragment() {
         {
             val storageRef= Firebase.storage
 
-            val ref = storageRef.reference.child("images/${user.uid}/profilePicture")
+            val ref = storageRef.reference.child("images/${user.email}/profilePicture")
             val uploadTask = ref.putFile(selectedImageUri!!)
 
             val urlTask = uploadTask.continueWithTask { task ->

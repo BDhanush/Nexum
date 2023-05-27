@@ -2,8 +2,10 @@ package com.example.nexum.model
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.bumptech.glide.Glide.init
 import com.google.firebase.database.Exclude
 import com.google.firebase.database.IgnoreExtraProperties
+import java.lang.Exception
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
@@ -19,11 +21,21 @@ data class Event(val uid:String?=null, val title:String?=null, val description:S
     @RequiresApi(Build.VERSION_CODES.O)
     fun setEpoch()
     {
-        val epochString = this.date+" "+this.time
-        val dtf: DateTimeFormatter = DateTimeFormatter.ofPattern("MMM d, yyyy h:mm a").withZone(
-            ZoneId.of(ZoneId.systemDefault().id))
-        val zdt: ZonedDateTime = ZonedDateTime.parse(epochString,dtf)
-        epoch = zdt.toInstant().toEpochMilli()
+        try {
+            val epochString = this.date + " " + this.time
+            val dtf: DateTimeFormatter = DateTimeFormatter.ofPattern("MMM d, yyyy h:mm a").withZone(
+                ZoneId.of(ZoneId.systemDefault().id)
+            )
+            val zdt: ZonedDateTime = ZonedDateTime.parse(epochString, dtf)
+            epoch = zdt.toInstant().toEpochMilli()
+        }catch (e:Exception){
+            val epochString = this.date + " " + this.time!!.lowercase()
+            val dtf: DateTimeFormatter = DateTimeFormatter.ofPattern("MMM d, yyyy h:mm a").withZone(
+                ZoneId.of(ZoneId.systemDefault().id)
+            )
+            val zdt: ZonedDateTime = ZonedDateTime.parse(epochString, dtf)
+            epoch = zdt.toInstant().toEpochMilli()
+        }
     }
     init{
 

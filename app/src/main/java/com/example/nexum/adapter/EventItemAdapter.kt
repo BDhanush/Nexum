@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.nexum.*
 import com.example.nexum.Notification
 import com.example.nexum.firebasefunctions.deleteEvent
@@ -81,7 +82,7 @@ class EventItemAdapter(val dataset:MutableList<Event>): RecyclerView.Adapter<Eve
 
         if(item.previewImage!=null)
         {
-            Picasso.get().load(item.previewImage).into(holder.previewImage);
+            Glide.with(holder.itemView).load(item.previewImage!!.toUri()).into(holder.previewImage);
         }
         holder.title.text=item.title
         holder.description.text=item.description
@@ -97,7 +98,7 @@ class EventItemAdapter(val dataset:MutableList<Event>): RecyclerView.Adapter<Eve
                 val user = userFromMap(userMap)
                 holder.username.text = user.firstName + " " + user.lastName
                 if(user.profilePicture!=null)
-                    Picasso.get().load(user.profilePicture).into(holder.profilePicture);
+                    Glide.with(holder.itemView.context).load(user.profilePicture!!.toUri()).into(holder.profilePicture);
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
