@@ -8,7 +8,9 @@ import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.core.content.ContextCompat.startActivity
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.nexum.OpportunityDetailsActivity
 import com.example.nexum.R
 import com.example.nexum.firebasefunctions.deleteEvent
@@ -62,7 +64,7 @@ class OpportunityItemAdapter(val dataset:MutableList<Opportunity>): RecyclerView
                 val user = userFromMap(userMap)
                 holder.username.text = user.firstName + " " + user.lastName
                 if(user.profilePicture!=null)
-                    Picasso.get().load(user.profilePicture).into(holder.profilePicture)
+                    Glide.with(holder.itemView.context).load(user.profilePicture!!.toUri()).into(holder.profilePicture)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {

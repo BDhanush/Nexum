@@ -4,19 +4,24 @@ import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.widget.ImageView
+import android.view.View
 import androidx.annotation.RequiresApi
-import android.view.View.INVISIBLE
-import android.view.View.VISIBLE
-import android.widget.GridView
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.net.toUri
 import androidx.core.widget.NestedScrollView
 import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.target.CustomViewTarget
+import com.bumptech.glide.request.transition.Transition
 import com.example.nexum.adapter.EventItemAdapter
 import com.example.nexum.firebasefunctions.eventFromMap
 import com.example.nexum.model.Event
@@ -58,7 +63,7 @@ class EventDetailsActivity : AppCompatActivity() {
                 val map=dataSnapshot.child(key!!).value as Map<String,Any?>
                 event= eventFromMap(map)
                 event!!.key=key
-                updateData(event!!)
+                updateData(event!!,view)
 
             }
 
@@ -167,7 +172,7 @@ class EventDetailsActivity : AppCompatActivity() {
         adapter = GridViewAdapter(filtereredList)
         binding.gridView.adapter=adapter
     }
-    fun updateData(event: Event){
+    fun updateData(event: Event,view:ConstraintLayout){
         binding.collapsingToolbar.title=event.title
         binding.description.text=event.description
         binding.date.text=event.date
@@ -176,8 +181,22 @@ class EventDetailsActivity : AppCompatActivity() {
 
         if(event.previewImage!=null)
         {
-            Picasso.get().load(event.previewImage).into(binding.imageView, object : Callback {
-                override fun onSuccess() {
+            Glide.with(this).load(event.previewImage!!.toUri()).into(object : CustomViewTarget<ConstraintLayout, Drawable>(
+                view
+            ) {
+                override fun onLoadFailed(errorDrawable: Drawable?) {
+                    // error handling
+                }
+
+                override fun onResourceCleared(placeholder: Drawable?) {
+                    // clear all resources
+                }
+
+                override fun onResourceReady(
+                    resource: Drawable,
+                    transition: Transition<in Drawable>?
+                ) {
+                    binding.imageView.setImageDrawable(resource)
                     binding.imageView.buildDrawingCache()
                     val bitmap: Bitmap = binding.imageView.getDrawingCache()
                     Palette.Builder(bitmap).generate { it?.let { palette ->
@@ -189,8 +208,6 @@ class EventDetailsActivity : AppCompatActivity() {
 
                     }
                     }
-                }
-                override fun onError(e: Exception?) {
                 }
             })
         }

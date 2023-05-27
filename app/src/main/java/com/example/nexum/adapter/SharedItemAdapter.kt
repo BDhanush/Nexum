@@ -12,6 +12,7 @@ import android.widget.SeekBar.*
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.nexum.R
 import com.example.nexum.firebasefunctions.deleteEvent
 import com.example.nexum.firebasefunctions.userFromMap
@@ -67,7 +68,7 @@ class SharedItemAdapter(val dataset:MutableList<SharedFile>): RecyclerView.Adapt
                 val user = userFromMap(userMap)
                 holder.username.text = user.firstName + " " + user.lastName
                 if(user.profilePicture!=null)
-                    Picasso.get().load(user.profilePicture).into(holder.profilePicture);
+                    Glide.with(holder.itemView.context).load(user.profilePicture!!.toUri()).into(holder.profilePicture)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
