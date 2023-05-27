@@ -90,7 +90,7 @@ class AddOpportunityActivity : AppCompatActivity() {
     {
         val patternGoogleForm= Regex("^https:\\/\\/docs\\.google\\.com\\/forms\\/d\\/.*")
         val patternGoogleShortenedForm= Regex("^https:\\/\\/forms\\.gle\\/.*")
-        val patternMicrosoftForm= Regex("^https:\\/\\/forms.office.com\\/Pages\\/ResponsePage.aspx\\?id=.*")
+        val patternMicrosoftForm= Regex("^https:\\/\\/forms\\.office\\.com\\/(Pages\\/ResponsePage\\.aspx\\?id=|r\\/).*")
         return (patternGoogleForm.containsMatchIn(link) ||
             patternGoogleShortenedForm.containsMatchIn(link) ||
             patternMicrosoftForm.containsMatchIn(link)

@@ -10,15 +10,22 @@
     android:gravity="center_horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+    <Button
+        android:layout_gravity="right"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:id="@+id/logout"
+        android:background="@drawable/baseline_logout_24"
+        android:layout_margin="16dp"
+        android:tooltipText="Logout"
+    />
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/profilePicture"
         android:src="@drawable/dice_6"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:scaleType="centerCrop"
-        android:layout_marginTop="45dp"
-        android:layout_marginBottom="45dp"
+        android:layout_marginBottom="16dp"
         app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
