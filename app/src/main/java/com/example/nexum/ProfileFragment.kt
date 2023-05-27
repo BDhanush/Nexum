@@ -76,6 +76,8 @@ class ProfileFragment : Fragment() {
         val lastName:TextView=view.findViewById(R.id.lastNameInput)
         val submitButton:Button=view.findViewById(R.id.submit)
         val addImage:Button=view.findViewById(R.id.editImage)
+        val logout:Button=view.findViewById(R.id.logout)
+
 
         val auth=Firebase.auth
         var database = FirebaseDatabase.getInstance("https://nexum-c8155-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("users/${auth.currentUser!!.uid}")
@@ -99,6 +101,18 @@ class ProfileFragment : Fragment() {
             }
         })
 
+        logout.setOnClickListener {
+            val submit:Button=this.requireView().findViewById(R.id.submit)
+            val progressBarUpdate:CircularProgressIndicator=this.requireView().findViewById(R.id.progressBarUpdate)
+            submit.isEnabled=false
+            Toast.makeText(this.context, "Logging out", Toast.LENGTH_SHORT).show()
+            progressBarUpdate.show()
+            auth.signOut()
+            requireActivity().finish()
+            Intent(context, LoginActivity::class.java).also{
+                startActivity(it)
+            }
+        }
 
         addImage.setOnClickListener {
             addimage()
