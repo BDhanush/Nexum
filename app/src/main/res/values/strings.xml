@@ -4,7 +4,7 @@
     <string name="Password">Password</string>
     <string name="log_in">LOG IN</string>
     <string name="forgot_password_question">FORGOT PASSWORD?</string>
-    <string name="login_text">LOGIN</string>
+    <string name="login_text">Login</string>
     <string name="signup_text">SIGNUP</string>
     <string name="email">Email</string>
     <string name="have_an_account">ALREADY HAVE AN ACCOUNT? LOGIN</string>

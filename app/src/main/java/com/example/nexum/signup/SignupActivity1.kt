@@ -25,17 +25,17 @@ class SignupActivity1 : AppCompatActivity() {
         setContentView(R.layout.activity_signup1)
 
         val nextButton: Button = findViewById(R.id.nextButton)
-        val loginButton: Button = findViewById(R.id.loginButton)
+//        val loginButton: Button = findViewById(R.id.loginButton)
 
         // Retrieve firstname and lastname values from TextInputEditTexts
 
 
-        loginButton.setOnClickListener {
-            finish()
-            Intent(this, LoginActivity::class.java).also {
-                startActivity(it)
-            }
-        }
+//        loginButton.setOnClickListener {
+//            finish()
+//            Intent(this, LoginActivity::class.java).also {
+//                startActivity(it)
+//            }
+//        }
 
         nextButton.setOnClickListener {
             next()

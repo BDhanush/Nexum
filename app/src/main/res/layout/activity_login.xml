@@ -22,19 +22,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Nexum"
-            android:textSize="48sp"
+            android:textSize="50sp"
             android:textStyle="bold"
-            android:fontFamily="sans-serif-light"
+            android:fontFamily="@font/robotobold"
             android:textColor="?attr/colorOnBackground"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginBottom="56dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/login_text"
+            android:fontFamily="@font/intermed"
             android:textSize="32sp"
             android:textStyle="bold"
-            android:fontFamily="monospace"
             android:textColor="?attr/colorOnBackground"
             android:layout_gravity="center_horizontal"/>
 
@@ -45,7 +45,7 @@
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="26dp"
             android:hint="@string/email"
             app:startIconDrawable="@drawable/baseline_account_circle_24"
             app:layout_constraintEnd_toEndOf="parent"
@@ -82,18 +82,6 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-<!--        <com.google.android.material.button.MaterialButton-->
-<!--            android:id="@+id/forgotPasswordButton"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="8dp"-->
-<!--            android:text="@string/forgot_password_question"-->
-<!--            android:textSize="14sp"-->
-<!--            style="@style/ButtonStyle"-->
-<!--            android:textColor="?attr/colorOnSecondary"-->
-<!--            android:backgroundTint="?attr/colorSecondary"-->
-<!--            app:layout_constraintEnd_toEndOf="@id/passwordLayout"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/passwordLayout"/>-->
 
         <TextView
             android:id="@+id/forgotPasswordLink"
@@ -102,8 +90,8 @@
             android:text="Forgot Password?"
             android:textColor="@color/link_color"
             android:clickable="true"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:gravity="center_horizontal"
             app:layout_constraintEnd_toEndOf="@id/passwordLayout"
             app:layout_constraintTop_toBottomOf="@id/passwordLayout"/>
@@ -112,7 +100,7 @@
             android:id="@+id/loginButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
+            android:layout_marginBottom="16dp"
             android:text="Login"
 
             app:cornerRadius="8dp"
@@ -125,7 +113,6 @@
             android:id="@+id/signupButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
             android:text="Create Account"
             app:cornerRadius="8dp"
             android:textSize="14sp"
