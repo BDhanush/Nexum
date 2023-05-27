@@ -109,6 +109,9 @@ class ProfileFragment : Fragment() {
             progressBarUpdate.show()
             auth.signOut()
             requireActivity().finish()
+            Intent(context, LoginActivity::class.java).also{
+                startActivity(it)
+            }
         }
 
         addImage.setOnClickListener {
