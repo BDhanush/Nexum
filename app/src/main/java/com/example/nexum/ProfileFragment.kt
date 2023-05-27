@@ -108,19 +108,20 @@ class ProfileFragment : Fragment() {
                 user.firstName=firstName.text.toString()
                 user.lastName=lastName.text.toString()
                 updateUser()
-            }else
-                Toast.makeText(this.context,"No Updates", Toast.LENGTH_SHORT).show()
+            }else {
+                Toast.makeText(this.context, "No Updates", Toast.LENGTH_SHORT).show()
+            }
 
         }
 
     }
     private fun updateUser()
     {
-//        val submit:Button=view.findViewById(R.id.submit)
-//        val progressBar:CircularProgressIndicator=view.findViewById(R.id.progressBar)
-//        submit.isEnabled=false
-//        submit.text="Updating"
-//        progressBar.show()
+        val submit:Button=this.requireView().findViewById(R.id.submit)
+        val progressBarUpdate:CircularProgressIndicator=this.requireView().findViewById(R.id.progressBarUpdate)
+        submit.isEnabled=false
+        submit.text="Updating"
+        progressBarUpdate.show()
         val database = FirebaseDatabase.getInstance("https://nexum-c8155-default-rtdb.asia-southeast1.firebasedatabase.app/").reference
 
         if(selectedImageUri!=null)
@@ -143,14 +144,22 @@ class ProfileFragment : Fragment() {
                     user.profilePicture=downloadUri.toString()
                     val updates=user.toMap()
 
-                    database.child("users").child(user.uid!!).updateChildren(updates)
+                    database.child("users").child(user.uid!!).updateChildren(updates).addOnSuccessListener {
+                        submit.isEnabled=true
+                        submit.text="Update"
+                        progressBarUpdate.hide()
+                    }
                     Toast.makeText(this.context,"Profile Updated", Toast.LENGTH_SHORT).show()
                 }
             }
         }else{
             val updates=user.toMap()
 
-            database.child("users").child(user.uid!!).updateChildren(updates)
+            database.child("users").child(user.uid!!).updateChildren(updates).addOnSuccessListener {
+                submit.isEnabled=true
+                submit.text="Update"
+                progressBarUpdate.hide()
+            }
             Toast.makeText(this.context,"Profile Updated", Toast.LENGTH_SHORT).show()
         }
 
