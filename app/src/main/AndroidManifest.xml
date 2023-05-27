@@ -38,10 +38,7 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".SignupActivity"
-            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden|uiMode"
-            />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
