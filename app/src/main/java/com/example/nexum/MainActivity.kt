@@ -111,6 +111,7 @@ class MainActivity : AppCompatActivity() {
                 add(R.id.fragment, tabsFragment[i]).hide(tabsFragment[i])
         }.commit()
 
+        binding.progressBar.show()
         loadFragment(tabsFragment[0])
 
         var selectedItem=R.id.event

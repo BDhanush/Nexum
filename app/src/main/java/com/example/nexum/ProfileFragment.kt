@@ -76,6 +76,8 @@ class ProfileFragment : Fragment() {
         val lastName:TextView=view.findViewById(R.id.lastNameInput)
         val submitButton:Button=view.findViewById(R.id.submit)
         val addImage:Button=view.findViewById(R.id.editImage)
+        val logout:Button=view.findViewById(R.id.logout)
+
 
         val auth=Firebase.auth
         var database = FirebaseDatabase.getInstance("https://nexum-c8155-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("users/${auth.currentUser!!.uid}")
@@ -99,6 +101,9 @@ class ProfileFragment : Fragment() {
             }
         })
 
+        logout.setOnClickListener {
+            auth.signOut()
+        }
 
         addImage.setOnClickListener {
             addimage()
