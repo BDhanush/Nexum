@@ -6,9 +6,11 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.blue
@@ -28,6 +30,8 @@ import com.google.firebase.storage.ktx.storage
 import java.io.ByteArrayOutputStream
 import java.sql.Time
 import java.text.SimpleDateFormat
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 
@@ -36,6 +40,7 @@ class AddEventActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddEventBinding
     private val SELECT_PICTURE = 200;
     private var selectedImageUri: Uri?=null;
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -50,7 +55,7 @@ class AddEventActivity : AppCompatActivity() {
             CalendarConstraints.Builder()
                 .setValidator(DateValidatorPointForward.now())
 
-        val datePicker = MaterialDatePicker.Builder.datePicker()
+        val datePicker:MaterialDatePicker<Long> = MaterialDatePicker.Builder.datePicker()
             .setTitleText("Select date")
             .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
             .setCalendarConstraints(constraintsBuilder.build())
@@ -71,10 +76,11 @@ class AddEventActivity : AppCompatActivity() {
         }
         datePicker.addOnPositiveButtonClickListener {
             timePicker.show(supportFragmentManager,"Select time")
-            date=datePicker.headerText
+            val dtf = SimpleDateFormat("MMM d, yyyy",Locale.getDefault())
+            date=dtf.format(it)
         }
         timePicker.addOnPositiveButtonClickListener{
-            val formatter = SimpleDateFormat("h:mm a",Locale.getDefault());
+            val formatter = SimpleDateFormat("h:mm a",Locale.ENGLISH);
 
             time=formatter.format(Time(timePicker.hour,timePicker.minute,0))
             binding.dateText.text =  date!! + " " + time!!
