@@ -57,7 +57,9 @@ class LoginActivity : AppCompatActivity() {
                 }
         }
         forgotPasswordLink.setOnClickListener{
-            Toast.makeText(this, "Clicked", Toast.LENGTH_SHORT).show()
+                Intent(this, ForgotPasswordActivity::class.java).also { // Navigate to ForgotPasswordActivity
+                    startActivity(it)
+                }
         }
 
 
