@@ -80,7 +80,7 @@ class AddEventActivity : AppCompatActivity() {
             date=dtf.format(it)
         }
         timePicker.addOnPositiveButtonClickListener{
-            val formatter = SimpleDateFormat("h:mm a",Locale.ENGLISH);
+            val formatter = SimpleDateFormat("h:mm a",Locale.getDefault());
 
             time=formatter.format(Time(timePicker.hour,timePicker.minute,0))
             binding.dateText.text =  date!! + " " + time!!
