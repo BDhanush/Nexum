@@ -102,7 +102,13 @@ class ProfileFragment : Fragment() {
         })
 
         logout.setOnClickListener {
+            val submit:Button=this.requireView().findViewById(R.id.submit)
+            val progressBarUpdate:CircularProgressIndicator=this.requireView().findViewById(R.id.progressBarUpdate)
+            submit.isEnabled=false
+            Toast.makeText(this.context, "Logging out", Toast.LENGTH_SHORT).show()
+            progressBarUpdate.show()
             auth.signOut()
+            requireActivity().finish()
         }
 
         addImage.setOnClickListener {
