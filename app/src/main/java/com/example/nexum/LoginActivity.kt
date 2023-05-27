@@ -6,8 +6,10 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
+import com.example.nexum.signup.SignupActivity1
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -21,9 +23,10 @@ class LoginActivity : AppCompatActivity() {
 
         val loginButton:Button=findViewById(R.id.loginButton)
         val signupButton:Button=findViewById(R.id.signupButton)
+        val forgotPasswordLink: TextView = findViewById(R.id.forgotPasswordLink)
 
         signupButton.setOnClickListener{
-            Intent(this,SignupActivity::class.java).also{
+            Intent(this, SignupActivity1::class.java).also{
                 startActivity(it)
             }
         }
@@ -53,6 +56,10 @@ class LoginActivity : AppCompatActivity() {
                     }
                 }
         }
+        forgotPasswordLink.setOnClickListener{
+            Toast.makeText(this, "Clicked", Toast.LENGTH_SHORT).show()
+        }
+
 
 
     }

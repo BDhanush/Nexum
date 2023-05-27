@@ -71,12 +71,14 @@ class AddEventActivity : AppCompatActivity() {
         }
         datePicker.addOnPositiveButtonClickListener {
             timePicker.show(supportFragmentManager,"Select time")
-            date=datePicker.headerText
+            date=datePicker.headerText.uppercase()?.trim()
         }
         timePicker.addOnPositiveButtonClickListener{
             val formatter = SimpleDateFormat("h:mm a",Locale.getDefault());
 
             time=formatter.format(Time(timePicker.hour,timePicker.minute,0))
+
+            time = time?.uppercase()?.trim()
             binding.dateText.text =  date!! + " " + time!!
             binding.dateText.visibility= View.VISIBLE
         }
@@ -89,7 +91,7 @@ class AddEventActivity : AppCompatActivity() {
             val auth = Firebase.auth
             val event=Event(
                 auth.currentUser!!.uid,
-                binding.eventNameInput.text.toString().uppercase().trim(),
+                binding.eventNameInput.text.toString(),
                 binding.descriptionInput.text.toString().trim(),
                 binding.venueInput.text.toString().trim(),
                 date,

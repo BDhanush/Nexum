@@ -16,6 +16,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import java.lang.Exception
 import java.util.concurrent.CountDownLatch
 
 fun fileFromMap(map:Map<String,Any?>): SharedFile
