@@ -90,7 +90,7 @@
             android:text="Forgot Password?"
             android:textColor="@color/link_color"
             android:clickable="true"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="4dp"
             android:layout_marginBottom="16dp"
             android:gravity="center_horizontal"
             app:layout_constraintEnd_toEndOf="@id/passwordLayout"
@@ -102,7 +102,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:text="Login"
-
+            android:fontFamily="@font/intermed"
             app:cornerRadius="8dp"
             app:backgroundTint="?attr/colorPrimary"
             app:layout_constraintEnd_toEndOf="parent"
