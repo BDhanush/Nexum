@@ -70,7 +70,7 @@ class SignupActivity1 : AppCompatActivity() {
 
     private fun checkFields():Boolean
     {
-        var check:Boolean=true;
+        var check:Boolean=true
         if (binding.firstnameInput.text.toString().trim().isEmpty()) {
             binding.firstnameLayout.error = "This field is required"
             check = false
