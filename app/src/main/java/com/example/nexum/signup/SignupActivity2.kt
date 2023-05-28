@@ -46,12 +46,12 @@ class SignupActivity2 : AppCompatActivity() {
 
         // Retrieve firstname and lastname values from TextInputEditTexts
         val emailInput: TextInputEditText = findViewById(R.id.emailInput)
-        emailName = emailInput.text.toString()
+        emailName = emailInput.text.toString().trim()
 
         val intent = Intent(this, SignupActivity3::class.java)
         intent.putExtra("firstname", firstname)
         intent.putExtra("lastname", lastname)
-        intent.putExtra("emailName", emailName)
+        intent.putExtra("emailName", emailName.trim())
 
         startActivity(intent)
     }
@@ -63,7 +63,7 @@ class SignupActivity2 : AppCompatActivity() {
             Pattern.compile("^[a-z]+([2][0-9])(ucse|uari|ucam|umee|uece|ueee)[0-9][0-9][0-9]@mahindrauniversity.edu.in\$")
         val m: Matcher = p.matcher(binding.emailInput.text.toString())
         val emailCheck: Boolean = m.matches()
-        if (binding.emailInput.text.toString().isEmpty()) {
+        if (binding.emailInput.text.toString().trim().isEmpty()) {
             binding.emailLayout.error = "This field is required"
             check = false
         } else if (!emailCheck) {
@@ -90,7 +90,7 @@ class SignupActivity2 : AppCompatActivity() {
                     Pattern.compile("^[a-z]+([2][0-9])(ucse|uari|ucam|umee|uece|ueee)[0-9][0-9][0-9]@mahindrauniversity.edu.in\$")
                 val m: Matcher = p.matcher(binding.emailInput.text.toString())
                 val emailCheck: Boolean = m.matches()
-                if (binding.emailInput.text.toString().isEmpty()) {
+                if (binding.emailInput.text.toString().trim().isEmpty()) {
                     binding.emailLayout.error = "This field is required"
                 } else if (!emailCheck) {
                     binding.emailLayout.error = "Only provide Mahindra email"

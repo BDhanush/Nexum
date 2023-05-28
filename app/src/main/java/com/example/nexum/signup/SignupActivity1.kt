@@ -63,19 +63,19 @@ class SignupActivity1 : AppCompatActivity() {
         // Start the next activity and pass firstname and lastname as extras
         val intent = Intent(this, SignupActivity2::class.java)
 
-        intent.putExtra("firstname", firstname)
-        intent.putExtra("lastname", lastname)
+        intent.putExtra("firstname", firstname.trim())
+        intent.putExtra("lastname", lastname.trim())
         startActivity(intent)
     }
 
     private fun checkFields():Boolean
     {
         var check:Boolean=true;
-        if (binding.firstnameInput.length() == 0) {
+        if (binding.firstnameInput.toString().trim().isEmpty()) {
             binding.firstnameLayout.error = "This field is required"
             check = false
         }
-        if (binding.lastnameInput.length() == 0) {
+        if (binding.lastnameInput.toString().trim().isEmpty()) {
             binding.lastnameLayout.error = "This field is required"
             check = false
         }
@@ -95,7 +95,7 @@ class SignupActivity1 : AppCompatActivity() {
 
             @RequiresApi(Build.VERSION_CODES.O)
             override fun afterTextChanged(s: Editable) {
-                if (binding.firstnameInput.length() == 0) {
+                if (binding.firstnameInput.toString().trim().isEmpty()) {
                     binding.firstnameLayout.error = "This field is required"
                 }
                 else {
@@ -114,7 +114,7 @@ class SignupActivity1 : AppCompatActivity() {
 
             @RequiresApi(Build.VERSION_CODES.O)
             override fun afterTextChanged(s: Editable) {
-                if (binding.lastnameInput.length() == 0) {
+                if (binding.lastnameInput.toString().trim().isEmpty()) {
                     binding.lastnameLayout.error = "This field is required"
                 }
                 else {
