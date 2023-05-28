@@ -193,6 +193,17 @@ class SharedFragment : Fragment() {
                 filteredList.add(item)
             }
         }
+        val noSearch:TextView=requireView().findViewById(R.id.noResults)
+        if (filteredList.isEmpty()) {
+            // if no item is added in filtered list we are
+            // displaying a toast message as no data found.
+//            Toast.makeText(this, "No Product Found", Toast.LENGTH_SHORT).show();
+            noSearch.visibility = View.VISIBLE
+
+        } else {
+            noSearch.visibility = View.INVISIBLE
+
+        }
         Log.i("check", filteredList.toString())
         adapter = SharedItemAdapter(filteredList)
         sharedRecyclerView.adapter=adapter
