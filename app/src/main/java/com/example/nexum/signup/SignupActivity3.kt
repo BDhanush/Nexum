@@ -3,16 +3,22 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.blue
 import androidx.core.graphics.green
 import androidx.core.graphics.red
 import com.example.nexum.MainActivity
 import com.example.nexum.R
+import com.example.nexum.databinding.ActivitySignup2Binding
+import com.example.nexum.databinding.ActivitySignup3Binding
 import com.example.nexum.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -29,15 +35,21 @@ import java.util.regex.Pattern
 class SignupActivity3 : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var database: DatabaseReference
+    private lateinit var binding: ActivitySignup3Binding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_signup3)
+        binding = ActivitySignup3Binding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         val signupButton:Button=findViewById(R.id.signupButton)
 
+        resetFields()
         signupButton.setOnClickListener {
-            signup()
+            if(checkFields()) {
+                signup()
+            }
         }
     }
     private fun signup()
@@ -46,31 +58,10 @@ class SignupActivity3 : AppCompatActivity() {
         val lastName = intent.getStringExtra("lastname").toString()
         val email = intent.getStringExtra("emailName").toString()
         val password:EditText=findViewById(R.id.passwordInput)
-        val confirmPassword:EditText=findViewById(R.id.confirmPasswordInput)
-        val p: Pattern = Pattern.compile("^[a-z]+([2][0-9])(ucse|uari|ucam|umee|uece|ueee)[0-9][0-9][0-9]@mahindrauniversity.edu.in\$")
-        val m: Matcher = p.matcher(email)
-
-        val emailCheck: Boolean = m.matches()
 
 
         auth = Firebase.auth
         database = FirebaseDatabase.getInstance("https://nexum-c8155-default-rtdb.asia-southeast1.firebasedatabase.app/").reference
-
-        if (!emailCheck) {
-            Toast.makeText(
-                this, "Only provide Mahindra email.",
-                Toast.LENGTH_SHORT
-            ).show()
-            return
-        }
-
-        if (password.text.toString() != confirmPassword.text.toString()) {
-            Toast.makeText(
-                this, "Passwords do not match.",
-                Toast.LENGTH_SHORT
-            ).show()
-            return
-        }
 
         auth.createUserWithEmailAndPassword(email!!,password.text.toString()).addOnCompleteListener(this) {
 
@@ -134,6 +125,64 @@ class SignupActivity3 : AppCompatActivity() {
             }
         }
         generateProfilePictureAndUpload()
+    }
+
+    private fun checkFields():Boolean
+    {
+        var check:Boolean=true;
+        if (binding.passwordInput.text.toString().isEmpty()) {
+            binding.passwordLayout.error = "This field is required"
+            check = false
+        }
+        else if (binding.passwordInput.length() < 6) {
+            binding.passwordLayout.error = "Password must be at least 6 characters"
+            check = false
+        }
+        if (binding.passwordInput.text.toString() != binding.confirmPasswordInput.text.toString()) {
+            binding.confirmPasswordLayout.error = "Passwords do not match"
+            check = false
+        }
+        // after all validation return true.
+        return check
+    }
+
+    private fun resetFields() {
+        binding.passwordInput.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // TODO Auto-generated method stub
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // TODO Auto-generated method stub
+            }
+
+            @RequiresApi(Build.VERSION_CODES.O)
+            override fun afterTextChanged(s: Editable) {
+                if (binding.passwordInput.text.toString().isEmpty()) {
+                    binding.passwordLayout.error = "This field is required"
+                }
+                else if (binding.passwordInput.length() < 6) {
+                    binding.passwordLayout.error = "Password must be at least 6 characters"
+                }
+                else {
+                    binding.passwordLayout.error = null
+                }
+            }
+        })
+        binding.confirmPasswordInput.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // TODO Auto-generated method stub
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // TODO Auto-generated method stub
+            }
+
+            @RequiresApi(Build.VERSION_CODES.O)
+            override fun afterTextChanged(s: Editable) {
+                binding.confirmPasswordLayout.error = null
+            }
+        })
     }
 }
 
