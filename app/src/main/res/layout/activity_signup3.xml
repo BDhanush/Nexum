@@ -72,6 +72,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/confirmPasswordLayout" />
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/progressBarSignUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:layout_gravity="center"
+            app:showAnimationBehavior="outward"
+            app:hideAnimationBehavior="inward"
+            android:visibility="invisible"/>
 
     </LinearLayout>
 
