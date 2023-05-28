@@ -75,10 +75,20 @@ class SignupActivity3 : AppCompatActivity() {
 
 
             } else {
-                Toast.makeText(
-                    this, it.exception.toString(),
-                    Toast.LENGTH_SHORT
-                ).show()
+                if (it.exception.toString().contains("com.google.firebase.auth.FirebaseAuthUserCollisionException:")) {
+                    Toast.makeText(this,
+                        "The email address is already in use by another account.",
+                        Toast.LENGTH_LONG
+                    ).show()
+
+                    finish()
+                }
+                else {
+                    Toast.makeText(
+                        this, it.exception.toString(),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
     }
