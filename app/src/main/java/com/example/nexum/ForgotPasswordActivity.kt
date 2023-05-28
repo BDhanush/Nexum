@@ -59,7 +59,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
                 } else {
                     // Error occurred while sending password reset email
                     // You can show an error message or perform any other action here
-                    Toast.makeText(applicationContext, "There is no account associated with this email address.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext, "There is no account associated with this email address.", Toast.LENGTH_LONG).show()
                     emailEditText.requestFocus()
                     emailEditText.setText("")
 
