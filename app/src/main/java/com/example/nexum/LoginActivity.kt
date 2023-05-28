@@ -73,11 +73,28 @@ class LoginActivity : AppCompatActivity() {
                         startActivity(it)
                     }
                 } else {
-                    // If sign in fails, display a message to the user.
-                    Toast.makeText(
-                        this, "signInWithEmail:failure ${task.exception}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    if (task.exception.toString().contains("com.google.firebase.auth.FirebaseAuthInvalidCredentialsException:")) {
+                        Toast.makeText(this,
+                            "Incorrect password.",
+                            Toast.LENGTH_LONG
+                        ).show();
+                        binding.passwordLayout.requestFocus()
+                        binding.passwordInput.setText("")
+                    }
+                    else if (task.exception.toString().contains("com.google.firebase.auth.FirebaseAuthInvalidUserException:")) {
+                        Toast.makeText(this,
+                            "There is no account associated with this email address.",
+                            Toast.LENGTH_LONG
+                        ).show();
+                        binding.usernameInput.setText("")
+                    }
+                    else {
+                        // If sign in fails, display a message to the user.
+                        Toast.makeText(
+                            this, "signInWithEmail:failure ${task.exception}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
     }
