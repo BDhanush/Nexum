@@ -4,6 +4,7 @@ import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import androidx.core.app.NotificationCompat
 
 val mapNotificationID:MutableMap<String,Int> = mutableMapOf()
@@ -34,7 +35,8 @@ class Notification : BroadcastReceiver()
     override fun onReceive(context: Context, intent: Intent)
     {
         val notification = NotificationCompat.Builder(context, channelID)
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setSmallIcon(R.drawable.ic_notification)
+//            .setColor(Color.BLACK)
             .setContentTitle(intent.getStringExtra(titleExtra))
             .setContentText(intent.getStringExtra(messageExtra))
             .build()
