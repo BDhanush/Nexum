@@ -30,6 +30,19 @@
         android:visibility="invisible"
         android:id="@+id/deleteButton"
         />
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progressBarDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:visibility="invisible"
+        app:hideAnimationBehavior="inward"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:showAnimationBehavior="outward" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

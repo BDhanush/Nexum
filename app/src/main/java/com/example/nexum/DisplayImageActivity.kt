@@ -15,6 +15,7 @@ import androidx.core.net.toUri
 import com.bumptech.glide.Glide
 import com.example.nexum.adapter.GridViewAdapter
 import com.example.nexum.firebasefunctions.imageFromMap
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -63,6 +64,11 @@ class DisplayImageActivity : AppCompatActivity() {
     }
     private fun deleteCurImage()
     {
+        val delete:Button=findViewById(R.id.deleteButton)
+        delete.text="Deleting"
+        delete.isEnabled=false
+        val progressBar:CircularProgressIndicator=findViewById(R.id.progressBarDelete)
+        progressBar.show()
         val database = FirebaseDatabase.getInstance("https://nexum-c8155-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("eventImages/$eventKey/$imageKey")
         database.removeValue()
 

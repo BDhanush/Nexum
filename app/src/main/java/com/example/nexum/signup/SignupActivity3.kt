@@ -54,6 +54,9 @@ class SignupActivity3 : AppCompatActivity() {
     }
     private fun signup()
     {
+        binding.signupButton.text="Signing Up"
+        binding.progressBarSignUp.show()
+        binding.signupButton.isEnabled=false
         val firstName = intent.getStringExtra("firstname").toString()
         val lastName = intent.getStringExtra("lastname").toString()
         val email = intent.getStringExtra("emailName").toString()
@@ -63,22 +66,28 @@ class SignupActivity3 : AppCompatActivity() {
         auth = Firebase.auth
         database = FirebaseDatabase.getInstance("https://nexum-c8155-default-rtdb.asia-southeast1.firebasedatabase.app/").reference
 
-        auth.createUserWithEmailAndPassword(email!!,password.text.toString()).addOnCompleteListener(this) {
+        auth.createUserWithEmailAndPassword(email,password.text.toString()).addOnCompleteListener(this) {
 
             if (it.isSuccessful) {
-                Toast.makeText(
-                    this, "Authentication successful.",
-                    Toast.LENGTH_SHORT
-                ).show()
 
-                writeNewUser(auth.currentUser!!.uid, firstName!! , lastName!!, email = email)
+                writeNewUser(auth.currentUser!!.uid, firstName , lastName, email = email)
 
 
             } else {
-                Toast.makeText(
-                    this, it.exception.toString(),
-                    Toast.LENGTH_SHORT
-                ).show()
+                if (it.exception.toString().contains("com.google.firebase.auth.FirebaseAuthUserCollisionException:")) {
+                    Toast.makeText(this,
+                        "The email address is already in use by another account.",
+                        Toast.LENGTH_LONG
+                    ).show()
+
+                    finish()
+                }
+                else {
+                    Toast.makeText(
+                        this, it.exception.toString(),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
     }
@@ -115,7 +124,6 @@ class SignupActivity3 : AppCompatActivity() {
                 if (task.isSuccessful) {
                     val downloadUri = task.result
                     user.profilePicture = downloadUri.toString()
-                    Toast.makeText(baseContext, user.profilePicture, Toast.LENGTH_SHORT).show()
                     database.child("users").child(uid).setValue(user).addOnSuccessListener {
                         val intent = Intent(this, MainActivity::class.java)
                         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

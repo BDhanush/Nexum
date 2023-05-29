@@ -61,7 +61,7 @@ class SignupActivity2 : AppCompatActivity() {
         var check:Boolean=true;
         val p: Pattern =
             Pattern.compile("^[a-z]+([2][0-9])(ucse|uari|ucam|umee|uece|ueee)[0-9][0-9][0-9]@mahindrauniversity.edu.in\$")
-        val m: Matcher = p.matcher(binding.emailInput.text.toString())
+        val m: Matcher = p.matcher(binding.emailInput.text.toString().trim())
         val emailCheck: Boolean = m.matches()
         if (binding.emailInput.text.toString().trim().isEmpty()) {
             binding.emailLayout.error = "This field is required"
@@ -88,7 +88,7 @@ class SignupActivity2 : AppCompatActivity() {
             override fun afterTextChanged(s: Editable) {
                 val p: Pattern =
                     Pattern.compile("^[a-z]+([2][0-9])(ucse|uari|ucam|umee|uece|ueee)[0-9][0-9][0-9]@mahindrauniversity.edu.in\$")
-                val m: Matcher = p.matcher(binding.emailInput.text.toString())
+                val m: Matcher = p.matcher(binding.emailInput.text.toString().trim())
                 val emailCheck: Boolean = m.matches()
                 if (binding.emailInput.text.toString().trim().isEmpty()) {
                     binding.emailLayout.error = "This field is required"

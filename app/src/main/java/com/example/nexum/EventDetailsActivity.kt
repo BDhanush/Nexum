@@ -151,6 +151,7 @@ class EventDetailsActivity : AppCompatActivity() {
         {
             adapter = GridViewAdapter(dataset)
             binding.gridView.adapter=adapter
+            return
         }
         val auth=Firebase.auth
         val curUser=auth.currentUser!!.uid

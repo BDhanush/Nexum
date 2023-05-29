@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.nexum.R
 import com.example.nexum.firebasefunctions.deleteEvent
+import com.example.nexum.firebasefunctions.deleteShared
 import com.example.nexum.firebasefunctions.userFromMap
 import com.example.nexum.model.SharedFile
 import com.google.android.material.card.MaterialCardView
@@ -58,7 +59,16 @@ class SharedItemAdapter(val dataset:MutableList<SharedFile>): RecyclerView.Adapt
 
         holder.fileName.text=item.title!!.dropLastWhile { it!='.' }.dropLast(1)
         holder.datePosted.text= SimpleDateFormat("dd/MM/yy hh:mm a").format(Date(item.datePosted))
-        holder.extention.text=item.title.dropWhile { it!='.' }
+        holder.extention.text= {
+            var ext=""
+            for(i in item.title.length-1 downTo 0){
+                ext=item.title[i]+ext
+                if(ext[0]=='.') {
+                    break;
+                }
+            }
+            ext
+        }.toString()
 
         var database = FirebaseDatabase.getInstance("https://nexum-c8155-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("users")
         database.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -87,7 +97,7 @@ class SharedItemAdapter(val dataset:MutableList<SharedFile>): RecyclerView.Adapt
 
                     }
                     .setPositiveButton("Delete") { dialog, which ->
-                        deleteEvent(item.key!!,context)
+                        deleteShared(item.key!!,context)
                         Toast.makeText(context,"File Deleted", Toast.LENGTH_SHORT).show()
                     }
                     .show()
