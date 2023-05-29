@@ -92,16 +92,16 @@ class AddEventActivity : AppCompatActivity() {
         }
 
         binding.submit.setOnClickListener {
-            val auth = Firebase.auth
-            val event=Event(
-                auth.currentUser!!.uid,
-                binding.eventNameInput.text.toString().trim(),
-                binding.descriptionInput.text.toString().trim(),
-                binding.venueInput.text.toString().trim(),
-                date,
-                time!!.uppercase()
-            )
             if(checkFields()) {
+                val auth = Firebase.auth
+                val event=Event(
+                    auth.currentUser!!.uid,
+                    binding.eventNameInput.text.toString().trim(),
+                    binding.descriptionInput.text.toString().trim(),
+                    binding.venueInput.text.toString().trim(),
+                    date,
+                    time!!.uppercase()
+                )
                 uploadEvent(event)
             }
         }
