@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.nexum.R
 import com.example.nexum.firebasefunctions.deleteEvent
+import com.example.nexum.firebasefunctions.deleteShared
 import com.example.nexum.firebasefunctions.userFromMap
 import com.example.nexum.model.SharedFile
 import com.google.android.material.card.MaterialCardView
@@ -87,7 +88,7 @@ class SharedItemAdapter(val dataset:MutableList<SharedFile>): RecyclerView.Adapt
 
                     }
                     .setPositiveButton("Delete") { dialog, which ->
-                        deleteEvent(item.key!!,context)
+                        deleteShared(item.key!!,context)
                         Toast.makeText(context,"File Deleted", Toast.LENGTH_SHORT).show()
                     }
                     .show()
