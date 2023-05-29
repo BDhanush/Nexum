@@ -64,7 +64,7 @@ class LoginActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Toast.makeText(
-                        this, "signInWithEmail:success",
+                        this, "Log in successful",
                         Toast.LENGTH_SHORT
                     ).show()
                     val user = auth.currentUser
@@ -75,7 +75,7 @@ class LoginActivity : AppCompatActivity() {
                 } else {
                     if (task.exception.toString().contains("com.google.firebase.auth.FirebaseAuthInvalidCredentialsException:")) {
                         Toast.makeText(this,
-                            "Incorrect password.",
+                            "Incorrect password",
                             Toast.LENGTH_LONG
                         ).show();
                         binding.passwordLayout.requestFocus()
