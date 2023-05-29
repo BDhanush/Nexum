@@ -35,6 +35,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
+import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -171,6 +172,7 @@ class OpportunitiesFragment : Fragment() {
 
                     }
                 }
+                dataset.reverse()
                 adapter = OpportunityItemAdapter(dataset)
                 progressBar.hide()
                 opportunityRecyclerView.adapter=adapter

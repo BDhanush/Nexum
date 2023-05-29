@@ -166,6 +166,7 @@ class SharedFragment : Fragment() {
                         dataset.add(file)
                     }
                 }
+                dataset.reverse()
                 adapter = SharedItemAdapter(dataset)
                 progressBar.hide()
                 sharedRecyclerView.adapter=adapter
