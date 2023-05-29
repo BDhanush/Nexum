@@ -78,6 +78,7 @@
                 android:layout_height="wrap_content"
                 tools:text="description"
                 android:padding="16dp"
+                android:autoLink="web"
                 app:layout_constraintHorizontal_bias="0.0"
                 android:textAppearance="?attr/textAppearanceBodyMedium"
                 android:textColor="?android:attr/textColorSecondary"
