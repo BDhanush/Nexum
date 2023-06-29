@@ -178,8 +178,8 @@ class EventItemAdapter(val dataset:MutableList<Event>): RecyclerView.Adapter<Eve
             @RequiresApi(Build.VERSION_CODES.O)
             fun createNotificationChannel()
             {
-                val name = "Notif Channel"
-                val desc = "Event remainders"
+                val name = "Event Remainders"
+                val desc = "Sends remainder for events"
                 val importance = NotificationManager.IMPORTANCE_DEFAULT
                 val channel = NotificationChannel(channelID, name, importance)
                 channel.description = desc
